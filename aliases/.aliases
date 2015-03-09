@@ -1,0 +1,27 @@
+# Django
+runserver(){
+    ./manage.py runserver_plus 0.0.0.0:8000
+}
+makemigrations(){
+    ./manage.py makemigrations
+}
+migrate(){
+    ./manage.py migrate
+}
+
+# Git
+# Git lg
+git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+
+newbranch() {
+    git pull
+    git checkout -b $1
+}
+
+mergebranch() {
+    git checkout master && git pull && git merge - --no-ff
+}
+
+cleanbranches() {
+    git branch --merged master | grep -v "\master" | xargs -n 1 git branch -d
+}
