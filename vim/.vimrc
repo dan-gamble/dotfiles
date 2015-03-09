@@ -38,6 +38,7 @@ set statusline+=%-40f\                    " path
 set statusline+=%=%1*%y%*%*\              " file type
 set statusline+=%10((%l,%c)%)\            " line and column
 set statusline+=%P                        " percentage of file
+
 " Mappings {{{
 
 " set leader to be the comma `,`
@@ -222,9 +223,9 @@ omap s :normal vs<CR>
 " Mappings {{{ 
 
 " .vimrc
-nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>ev :e $MYVIMRC<CR>
 " .zshrc
-nnoremap <leader>ez :vsp ~/.zshrc<CR>
+nnoremap <leader>ez :e ~/.zshrc<CR>
 " source vimrc
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
@@ -341,11 +342,13 @@ augroup ft_html
     " indent tag
     au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>= Vat=
 
-    " django tags
-    au FileType jinja,htmldjango inoremap <buffer> <c-t> {%<space><space>%}<left><left><left>
-
     " django variables
-    au FileType jinja,htmldjango inoremap <buffer> <c-b> {{<space><space>}}<left><left><left>
+    au Filetype jinja,htmldjango inoremap <buffer> {{<space> {{<space><space>}}<left><left><left>
+    " }}
+
+    " django tags
+    au Filetype jinja,htmldjango inoremap <buffer> {%<space> {%<space><space>%}<left><left><left>
+    " }
 augroup END
 
 " }}}
@@ -451,7 +454,6 @@ Plugin 'hail2u/vim-css3-syntax'
 
 Plugin 'ctrlpvim/ctrlp.vim'
 
-let g:ctrlp_map = '<c-p>'
 " always open file in new buffer
 let g:ctrlp_split_window = 0
 let g:ctrlp_max_height = 20
@@ -607,14 +609,37 @@ nnoremap <leader>C :SyntasticCheck<cr>
 Plugin 'wellle/targets.vim'
 
 " }}}
+" tern | tool for parsing JS properly {{{
+
+Plugin 'marijnh/tern_for_vim'
+
+" }}}
 " vim-javascript {{{
 
 Plugin 'pangloss/vim-javascript'
 
 " }}}
+" yank ring {{{
+
+Plugin 'vim-scripts/YankRing.vim'
+
+" Mappings {{{
+
+nnoremap <silent> <leader>p :YRShow<cr>
+
+let g:yankring_replace_n_pkey = ''
+let g:yankring_replace_n_nkey = ''
+
+" }}}
+
+" }}}
 " YouCompleteMe {{{
 
 Plugin 'Valloric/YouCompleteMe'
+
+let g:ycm_filetype_blacklist = {
+    \ 'vim': 1
+    \}
 
 " }}}
 
