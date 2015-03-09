@@ -1,11 +1,18 @@
 [alias]
 	cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+[apply]
+    whitespace = fix
 [core]
 	excludesfile = /Users/dangamble/.gitignore_global
 	editor = vim
+    whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+[color]
+    ui = auto
 [help]
 	autocorrect = 1
+[merge]
+    log = true
 [user]
 	name = Dan Gamble
 	email = dangamble89@gmail.com
