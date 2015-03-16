@@ -112,3 +112,6 @@ mkcd () {
     mkdir "$1"
     cd "$1"
 }
+
+# Replace git alias with hub (It's totally safe!)
+eval "$(hub alias -s)"
