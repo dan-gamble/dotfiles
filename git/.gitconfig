@@ -5,10 +5,8 @@
     whitespace = fix
 [core]
 	excludesfile = /Users/dangamble/.gitignore_global
-	editor = vim
+	editor = subl
     whitespace = space-before-tab,-indent-with-non-tab,trailing-space
-[color]
-    ui = auto
 [help]
 	autocorrect = 1
 [merge]
@@ -17,6 +15,7 @@
 	name = Dan Gamble
 	email = dangamble89@gmail.com
 [push]
-	default = matching
-[init]
-	templatedir = ~/.git_template
+	default = simple
+[github]
+	user = dangamble89
+	token = 227f896eccc9a268c456722ba61cafbdf5b783ad
