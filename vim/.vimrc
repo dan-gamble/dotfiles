@@ -102,15 +102,6 @@ augroup cline
 augroup END
 
 " }}}
-" Explorer {{{
-
-" Mappings {{{
-
-nnoremap <C-n> :Explore<cr> 
-
-" }}}
-
-" }}}
 " Folding {{{
 
 " we want to be able to fold
@@ -607,11 +598,6 @@ nnoremap <leader>C :SyntasticCheck<cr>
 " targets | ci' to change between ' etc. {{{
 
 Plugin 'wellle/targets.vim'
-
-" }}}
-" tern | tool for parsing JS properly {{{
-
-Plugin 'marijnh/tern_for_vim'
 
 " }}}
 " vim-javascript {{{
