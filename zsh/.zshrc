@@ -39,13 +39,13 @@ export ZSH=$HOME/.oh-my-zsh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git osx wd pip python node npm virtualenv)
+# plugins=(git git-flow brew osx wd pip python node npm virtualenv zsh-syntax-highlighting)
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="itg-text"
+# ZSH_THEME="itg-text"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -115,3 +115,20 @@ mkcd () {
 
 # Replace git alias with hub (It's totally safe!)
 eval "$(hub alias -s)"
+
+source $HOME/.antigen/antigen.zsh
+
+antigen use oh-my-zsh
+
+antigen bundle git
+antigen bundle node
+antigen bundle npm
+antigen bundle osx
+antigen bundle pip
+antigen bundle python
+antigen bundle virtualenv
+
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle sindresorhus/pure
+
+antigen apply
