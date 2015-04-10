@@ -130,5 +130,6 @@ antigen bundle virtualenv
 
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle sindresorhus/pure
+antigen bundle sharat87/autoenv
 
 antigen apply
