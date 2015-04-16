@@ -15,7 +15,7 @@ set laststatus=2
 set smartindent
 set splitbelow
 set splitright
-set colorcolumn=+1
+set colorcolumn=80
 
 set ruler
 
@@ -48,6 +48,7 @@ let maplocalleader = "\\"
 
 " lets get into normal mode
 inoremap jk <esc>
+inoremap jj <esc>
 
 " unbind F1 help key
 noremap <F1> :checktime<cr>
@@ -219,6 +220,8 @@ nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>ez :e ~/.zshrc<CR>
 " source vimrc
 nnoremap <leader>sv :source $MYVIMRC<CR>
+" stop accidentally closing VIM
+cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'bdelete' : 'q')<CR>
 
 " }}}
 
@@ -320,7 +323,7 @@ augroup END
 augroup ft_html
     au!
 
-    au BufNewFile,BufRead *.html setlocal filetype=htmldjango
+    au BufNewFile,BufRead *.html,*.swig,*.twig setlocal filetype=htmldjango
 
     au FileType html,jinja,htmldjango setlocal foldmethod=manual
 
@@ -479,7 +482,13 @@ nmap ga <Plug>(EasyAlign)
 
 Plugin 'mattn/emmet-vim'
 
-let g:user_emmet_leader_key = '<C-e>'
+" let g:user_emmet_leader_key = '<C-e>'
+
+" Mappings {{{
+
+au FileType html,css,sass,scss,less imap <expr>jl emmet#expandAbbrIntelligent("\<tab>")
+
+" }}}
 
 " }}}
 " git {{{
@@ -559,10 +568,16 @@ let g:pymode_rope_global_prefix = '<localleader>R'
 let g:pymode_rope_local_prefix = '<localleader>r'
 
 let g:pymode_rope_goto_definition_bind = '<leader>b'
+let g:pymode_rope_complete_on_dot = 0
 
 let g:pymode_rope_autoimport = 0
 
 let g:pymode_lint_ignore = "E501"
+
+" }}}
+" Twig / Swig {{{
+
+Plugin 'lepture/vim-jinja'
 
 " }}}
 " scss-syntax | proper scss syntax highlighting {{{

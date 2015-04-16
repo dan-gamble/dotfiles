@@ -45,13 +45,13 @@ plugins=(git osx wd pip python node npm virtualenv)
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="itg-text"
+ZSH_THEME="cypher"
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin"
+export PATH="/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/usr/local/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -115,3 +115,22 @@ mkcd () {
 
 # Replace git alias with hub (It's totally safe!)
 eval "$(hub alias -s)"
+
+# Change into a directory and ls it
+function cs () {
+    cd $1
+    ls
+}
+
+# Antigen (Bundles)
+source ~/.antigen/antigen.zsh
+
+# Load the oh-my-zsh library
+antigen-use oh-my-zsh
+
+# Bundles we want to use
+antigen-bundle zsh-users/zsh-syntax-highlighting
+antigen bundle sindresorhus/pure
+
+# We are finitop
+antigen-apply
