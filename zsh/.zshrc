@@ -1,36 +1,27 @@
+# {{{ Initial setups
 export ZSH=$HOME/.oh-my-zsh
-
 source $ZSH/oh-my-zsh.sh
-
 export PATH="/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin"
-
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='mvim'
-fi
-
+# }}}
+# {{{ Add postgres.app to the path
 PATH="/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH"
 export PATH=$PATH:~/Workspace/scripts/src/bin
-
-# Virtualenvwrapper
+# }}}
+# {{{ Virtualenvwrapper
 export WORKON_HOME=~/Envs
 source /usr/local/bin/virtualenvwrapper.sh
-
-# Composer
-PATH=~/.composer/vendor/bin:$PATH
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting'
-
-# Let's get the aliases
+# }}}
+# {{{ Let's get the aliases
 source $HOME/.aliases
-# Let's get our custom functions
+# }}}
+# {{{ Let's get our custom functions
 source $HOME/.dotfiles/zsh/.zshrcFunctions
-
+# }}}
+# {{{ Git stuffs
 # Replace git alias with hub (It's totally safe!)
 eval "$(hub alias -s)"
-
-# Antigen - A zsh plugin manager
+# }}}
+# {{{ Antigen - A zsh plugin manager
 source $HOME/.antigen/antigen.zsh
 
 # Use oh-my-zsh's library
@@ -50,3 +41,5 @@ antigen bundle sindresorhus/pure
 antigen bundle sharat87/autoenv
 
 antigen apply
+# }}}
+# vim:foldmethod=marker:foldlevel=0
