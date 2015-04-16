@@ -47,6 +47,11 @@ mkcd () {
 # Replace git alias with hub (It's totally safe!)
 eval "$(hub alias -s)"
 
+function chpwd() {
+    emulate -L zsh
+    la
+}
+
 # Antigen - A zsh plugin manager
 source $HOME/.antigen/antigen.zsh
 
