@@ -1,0 +1,7 @@
+#!/bin/zsh
+# This hook is sourced after every virtualenv is activated.
+
+RPROMPT="%{${fg_bold[white]}%}(env: %{${fg[green]}%}`basename \"$VIRTUAL_ENV\"`%{${fg_bold[white]}%})%{${reset_color}%} $RPROMPT"
+
+proj_name=$(basename $VIRTUAL_ENV)
+cd ~/Workspace/$proj_name
