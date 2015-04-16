@@ -1,0 +1,25 @@
+# Run `la` every time we change directories
+function chpwd() {
+    emulate -L zsh
+    la
+}
+
+# Make directory and cd into it
+mkcd () {
+    mkdir "$1"
+    cd "$1"
+}
+
+# Add the ability to CTRL-Z back to Vim!
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="fg"
+    zle accept-line
+  else
+    zle push-input
+    zle clear-screen
+  fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+

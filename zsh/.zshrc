@@ -24,33 +24,11 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting'
 
 # Let's get the aliases
 source $HOME/.aliases
-
-# Add the ability to CTRL-Z back to Vim!
-fancy-ctrl-z () {
-  if [[ $#BUFFER -eq 0 ]]; then
-    BUFFER="fg"
-    zle accept-line
-  else
-    zle push-input
-    zle clear-screen
-  fi
-}
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
-
-# Make directory and cd into it
-mkcd () {
-    mkdir "$1"
-    cd "$1"
-}
+# Let's get our custom functions
+source $HOME/.dotfiles/zsh/.zshrcFunctions
 
 # Replace git alias with hub (It's totally safe!)
 eval "$(hub alias -s)"
-
-function chpwd() {
-    emulate -L zsh
-    la
-}
 
 # Antigen - A zsh plugin manager
 source $HOME/.antigen/antigen.zsh
