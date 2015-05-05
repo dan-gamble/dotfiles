@@ -5,13 +5,11 @@
     whitespace = fix
 [core]
 	excludesfile = /Users/dangamble/.gitignore_global
-	editor = subl
+	editor = vim
     whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 	autocrlf = input
 [help]
 	autocorrect = 1
-[merge]
-    log = true
 [user]
 	name = Dan Gamble
 	email = dangamble89@gmail.com
