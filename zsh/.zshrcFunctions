@@ -23,22 +23,4 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 # }}}
-# {{{ Activate .env file on directory change
-function chpwd; {
-    DIRECTORY="$PWD"
-    while true; do
-        if [ -f './.env.rc' ]; then
-            source './.env.rc'
-            break
-        fi
-        if [ -f './env' ]; then
-            source './env'
-            break
-        fi
-        [ $PWD = '/' ] && break
-        cd -q ..
-    done
-    cd -q "$DIRECTORY"
-}
-# }}}
 # vim:foldmethod=marker:foldlevel=0
