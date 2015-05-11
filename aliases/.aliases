@@ -167,3 +167,6 @@ alias use-node="brew unlink iojs && brew link --force node"
 # Shell conveniences
 alias sz='source ~/.zshrc'
 alias ez='mvim ~/.zshrc'
+
+# Fuck
+alias fuck='eval $(thefuck $(fc -ln -1)); history -r'
