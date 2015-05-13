@@ -39,6 +39,9 @@ antigen bundle virtualenv
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle sindresorhus/pure
 antigen bundle sharat87/autoenv
+antigen bundle djui/alias-tips
+antigen bundle unixorn/autoupdate-antigen.zshplugin
+antigen bundle walesmd/caniuse.plugin.zsh
 
 antigen apply
 # }}}
