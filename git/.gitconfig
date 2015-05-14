@@ -4,6 +4,7 @@
 	pp = !git pull --rebase && git push
 	cb = checkout -
 	mb = checkout master && git pull --rebase && git merge - --no-ff
+	s = status
 [apply]
     whitespace = fix
 [core]
