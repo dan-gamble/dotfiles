@@ -3,7 +3,7 @@
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	pp = !git pull --rebase && git push
 	cb = checkout -
-	mb = checkout master && git pull --rebase && git merge - --no-ff
+	mb = !git checkout master && git pull --rebase && git merge - --no-ff
 	s = status
 [apply]
     whitespace = fix
