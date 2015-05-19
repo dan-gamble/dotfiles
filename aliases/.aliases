@@ -1,6 +1,6 @@
 # Django
 runserver(){
-    ./manage.py runserver_plus 0.0.0.0:8000
+    while true; do python manage.py runserver_plus 0.0.0.0:8000 --threaded; sleep 3; done
 }
 makemigrations(){
     ./manage.py makemigrations
