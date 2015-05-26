@@ -19,7 +19,7 @@ newbranch() {
 }
 
 mergebranch() {
-    git checkout master && git pull && git merge - --no-ff
+    git checkout master && git pull --rebase && git merge - --no-ff
 }
 
 cleanbranches() {
