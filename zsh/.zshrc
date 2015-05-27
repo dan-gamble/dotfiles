@@ -17,6 +17,9 @@ source $HOME/.aliases
 # {{{ Let's get our custom functions
 source $HOME/.dotfiles/zsh/.zshrcFunctions
 # }}}
+# {{{ Let's get our env variables
+source $HOME/.env
+# }}}
 # {{{ Git stuffs
 # Replace git alias with hub (It's totally safe!)
 eval "$(hub alias -s)"
