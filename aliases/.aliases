@@ -9,6 +9,9 @@ migrate(){
     ./manage.py migrate
 }
 
+# Pip
+alias publish='python setup.py register sdist upload'
+
 # Git
 # Git lg
 git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
