@@ -235,7 +235,7 @@ defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 # hash tmutil &> /dev/null && sudo tmutil disablelocal
 
 # Disable Swipe controls for Google Chrome
-defaults write com.google.Chrome.plist AppleEnableSwipeNavigateWithScrolls -bool FALSE
+defaults write com.google.Chrome.plist AppleEnableSwipeNavigateWithScrolls -bool TRUE
 
 # # Remove Dropbox’s green checkmark icons in Finder
 # file=/Applications/Dropbox.app/Contents/Resources/check.icns
