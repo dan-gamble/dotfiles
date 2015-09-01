@@ -9,6 +9,10 @@ export PATH=$PATH:~/Workspace/scripts/src/bin
 export WORKON_HOME=~/Envs
 source /usr/local/bin/virtualenvwrapper.sh
 # }}}
+# {{{ Random options
+unsetopt inc_append_history
+unsetopt share_history
+# }}}
 # {{{ Let's get the aliases
 source $HOME/.aliases
 # }}}
@@ -40,6 +44,7 @@ antigen bundle virtualenv
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle mafredri/zsh-async
 antigen bundle sindresorhus/pure
+antigen bundle tarruda/zsh-autosuggestions
 
 antigen apply
 # }}}
