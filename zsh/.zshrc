@@ -3,7 +3,8 @@ export PATH="/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin"
 # }}}
 # {{{ Add postgres.app to the path
 PATH="/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH"
-export PATH=$PATH:~/Workspace/scripts/src/bin
+export PATH="~/Workspace/scripts/src/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
 # }}}
 # {{{ Virtualenvwrapper
 export WORKON_HOME=~/Envs
