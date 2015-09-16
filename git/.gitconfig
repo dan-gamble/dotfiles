@@ -4,9 +4,10 @@
 	pp = !git pull --rebase && git push
 	cb = checkout -
 	mb = !git checkout master && git fetch && git rebase origin/master && git merge - --no-ff
-    mbpp = !git mb && git push && git cb
+    mbpp = !git mb && git push && git cb && git rebase master
 	s = status
     tempignored = !git ls-files -v | grep '^[[:lower:]]'
+    cleanignored = !git ls-files --ignored --exclude-standard | xargs git rm
 [apply]
     whitespace = fix
 [core]
