@@ -634,15 +634,6 @@ let g:yankring_replace_n_nkey = ''
 " }}}
 
 " }}}
-" YouCompleteMe {{{
-
-Plugin 'Valloric/YouCompleteMe'
-
-let g:ycm_filetype_blacklist = {
-    \ 'vim': 1
-    \}
-
-" }}}
 
 " Colors / themes {{{
 

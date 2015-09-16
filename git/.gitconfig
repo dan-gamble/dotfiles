@@ -3,13 +3,16 @@
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	pp = !git pull --rebase && git push
 	cb = checkout -
-	mb = !git checkout master && git pull --rebase && git merge - --no-ff
+	mb = !git checkout master && git fetch && git rebase origin/master && git merge - --no-ff
+    mbpp = !git mb && git push && git cb && git rebase master
 	s = status
+    tempignored = !git ls-files -v | grep '^[[:lower:]]'
+    cleanignored = !git ls-files --ignored --exclude-standard | xargs git rm
 [apply]
     whitespace = fix
 [core]
 	excludesfile = /Users/dangamble/.gitignore_global
-	editor = subl --wait
+	editor = vim
     whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 	autocrlf = input
 [help]
