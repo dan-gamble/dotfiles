@@ -1,0 +1,11 @@
+{
+    "attributes": [
+        "href",
+        "src"
+    ],
+    "extensions": [
+        "html"
+    ],
+    "runOnLoad": true,
+    "runOnSave": true
+}
