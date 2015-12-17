@@ -1,0 +1,32 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"AdvancedNewFile",
+		"Anaconda",
+		"BoundKeys",
+		"Color Highlighter",
+		"Djaneiro",
+		"Emmet",
+		"ExpandRegion",
+		"File History",
+		"FindKeyConflicts",
+		"Fix Mac Path",
+		"Gist",
+		"Gruvbox Dark",
+		"Local History",
+		"Meteor Autocomplete (TernJS)",
+		"Package Control",
+		"PackageResourceViewer",
+		"Project Manager",
+		"Search in Project",
+		"Syntax Highlighting for PostCSS",
+		"Syntax Highlighting for Sass",
+		"Theme - Afterglow",
+		"Vue Syntax Highlight",
+		"Zen Tabs"
+	]
+}

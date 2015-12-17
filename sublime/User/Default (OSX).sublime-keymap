@@ -1,0 +1,116 @@
+[
+    // Ace jump
+    { "keys": ["super+shift+'"],      "command": "ace_jump_char"},
+    { "keys": ["super+shift+;"],      "command": "ace_jump_select"},
+
+    // Anaconda
+    { "keys": ["super+b"],            "command": "anaconda_goto" },
+    { "keys": ["super+§"],            "command": "anaconda_run_current_test" },
+    { "keys": ["alt+§"],              "command": "anaconda_run_current_file_tests" },
+    { "keys": ["ctrl+§"],             "command": "anaconda_run_project_tests" },
+
+    // Code manipulation
+    { "keys": ["super+shift+r"],      "command": "reindent" },
+    { "keys": ["super+shift+up"],     "command": "swap_line_up" },
+    { "keys": ["super+shift+down"],   "command": "swap_line_down" },
+    { "keys": ["super+backspace"],    "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Line.sublime-macro"} },
+    { "keys": ["super+shift+c"],      "command": "duplicate_line" },
+
+    // Code navigations
+    { "keys": ["super+b"],            "command": "goto_definition" },
+    { "keys": ["super+shift+d"],      "command": "find_all_under" },
+    { "keys": ["super+o"],            "command": "goto_symbol_in_project" },
+    { "keys": ["super+shift+o"],      "command": "show_overlay", "args": {"overlay": "goto", "show_files": true} },
+    { "keys": ["alt+up"],             "command": "expand_region"},
+    { "keys": ["alt+down"],           "command": "expand_region", "args": {"undo": true}, "context": [{"key": "expand_region_soft_undo"}]},
+
+    // Code wrapping
+    { "keys": ["super+shift+w"],      "command": "wrap_as_you_type", "context": [{"operand": false, "operator": "equal", "match_all": true, "key": "setting.is_widget"}, {"match_all": true, "key": "emmet_action_enabled.wrap_as_you_type"}]},
+
+    // Enter
+    { "keys": ["super+alt+enter"],    "command": "run_macro_file", "args": {"file": "res://Packages/Default/Add Line Before.sublime-macro"} },
+    { "keys": ["ctrl+enter"],         "command": "run_macro_file", "args": {"file": "res://Packages/User/EOL Comma.sublime-macro"} },
+
+    // File history
+    { "keys": ["super+p"],            "command": "open_recently_closed_file" },
+
+    // Focus
+    { "keys": ["ctrl+1"],             "command": "focus_side_bar" },
+    { "keys": ["ctrl+2"],             "command": "focus_group", "args": { "group": 0 } },
+
+    // Jumping
+    { "keys": ["super+shift+["],      "command": "jump_back" },
+    { "keys": ["super+shift+]"],      "command": "jump_forward" },
+
+    // Projects
+    { "keys": ["super+alt+p"],        "command": "prompt_select_workspace" },
+
+    // Randoms
+    // { "keys": ["super+s"],            "command": "save_all" },
+    { "keys": ["super+option+v"],     "command": "paste_and_indent" },
+
+    // Search
+    { "keys": ["super+o"],            "command": "search_in_project" },
+
+    // Splits
+    // -- Delete Splits
+    {
+        "keys": ["ctrl+w, ctrl+q"],
+        "command": "set_layout",
+        "args":
+        {
+            "cols": [0.0, 1.0],
+            "rows": [0.0, 1.0],
+            "cells": [[0, 0, 1, 1]]
+        }
+        },
+    // -- Vertical Split
+    {
+        "keys": ["ctrl+w, ctrl+v"],
+        "command": "set_layout",
+        "args":
+        {
+            "cols": [0.0, 0.5, 1.0],
+            "rows": [0.0, 1.0],
+            "cells": [[0, 0, 1, 1], [1, 0, 2, 1]]
+        }
+        },
+    // -- Horizontal Split
+    {
+        "keys": ["ctrl+w, ctrl+s"],
+        "command": "set_layout",
+        "args":
+        {
+            "cols": [0.0, 1.0],
+            "rows": [0.0, 0.5, 1.0],
+            "cells": [[0, 0, 1, 1], [0, 1, 1, 2]]
+        }
+        },
+    // -- Focus next split
+    { "keys": ["ctrl+w", "ctrl+w"],   "command": "focus_neighboring_group" },
+
+    // System
+    { "keys": ["super+."],            "command": "open_file", "args": {
+        "file": "${packages}/User/Default (OSX).sublime-keymap"
+        } },
+
+    // Word movement
+    { "keys": ["ctrl+left"], "command": "move", "args": {"by": "words", "forward": false} },
+    { "keys": ["ctrl+right"], "command": "move", "args": {"by": "word_ends", "forward": true} },
+    { "keys": ["ctrl+shift+left"], "command": "move", "args": {"by": "words", "forward": false, "extend": true} },
+    { "keys": ["ctrl+shift+right"], "command": "move", "args": {"by": "word_ends", "forward": true, "extend": true} },
+
+    { "keys": ["alt+left"], "command": "move", "args": {"by": "subwords", "forward": false} },
+    { "keys": ["alt+right"], "command": "move", "args": {"by": "subword_ends", "forward": true} },
+    { "keys": ["alt+shift+left"], "command": "move", "args": {"by": "subwords", "forward": false, "extend": true} },
+    { "keys": ["alt+shift+right"], "command": "move", "args": {"by": "subword_ends", "forward": true, "extend": true} },
+
+    // Vintage mode
+    {
+        "keys": ["j", "k"], "command": "exit_insert_mode",
+        "context": [
+           { "key": "setting.command_mode", "operand": false },
+           { "key": "setting.is_widget", "operand": false }
+        ]
+    }
+]

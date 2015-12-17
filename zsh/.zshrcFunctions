@@ -3,14 +3,11 @@ function chpwd() {
     emulate -L zsh
     la
 }
-# }}}
-# {{{ Make directory and cd into it
 mkcd () {
     mkdir "$1"
     cd "$1"
 }
-# }}}
-# {{{ Add the ability to CTRL-Z back to Vim!
+
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
     BUFFER="fg"
@@ -22,5 +19,4 @@ fancy-ctrl-z () {
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
-# }}}
-# vim:foldmethod=marker:foldlevel=0
+

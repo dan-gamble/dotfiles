@@ -1,0 +1,124 @@
+{
+	"auto_complete_triggers":
+	[
+		{
+			"characters": "<",
+			"selector": "text.html"
+		},
+		{
+			"characters": ".",
+			"selector": "source.js"
+		},
+		{
+			"characters": ".",
+			"selector": "source.python"
+		}
+	],
+	"bold_folder_labels": true,
+	"caret_style": "phase",
+	"close_windows_when_empty": false,
+	"color_scheme": "Packages/Gruvbox Dark/gruvbox.tmTheme",
+	"drag_text": false,
+	"ensure_newline_at_eof_on_save": true,
+	"file_exclude_patterns":
+	[
+		"*.scssc",
+		"*.pyc",
+		"*.pyo",
+		"*.exe",
+		"*.dll",
+		"*.obj",
+		"*.o",
+		"*.a",
+		"*.lib",
+		"*.so",
+		"*.dylib",
+		"*.ncb",
+		"*.sdf",
+		"*.suo",
+		"*.pdb",
+		"*.idb",
+		".DS_Store",
+		"*.class",
+		"*.psd",
+		"*.db",
+		"*.sublime-workspace"
+	],
+	"folder_exclude_patterns":
+	[
+		".sass-cache",
+		"venv",
+		".git",
+		".idea",
+		"node_modules",
+		"bower_components",
+		"*.egg-info"
+	],
+	"font_face": "Hack",
+	"font_size": 13,
+	"highlight_line": true,
+	"highlight_modified_tabs": true,
+	"hot_exit": false,
+	"ignored_packages":
+	[
+		"2pdf",
+		"ActionScript",
+		"AppleScript",
+		"ASP",
+		"Batch File",
+		"C#",
+		"C++",
+		"Clojure",
+		"CSS",
+		"D",
+		"Erlang",
+		"Go",
+		"Graphviz",
+		"Groovy",
+		"Haskell",
+		"Java",
+		"LaTeX",
+		"Lisp",
+		"Markdown",
+		"Matlab",
+		"Objective-C",
+		"OCaml",
+		"Pascal",
+		"Perl",
+		"R",
+		"RestructuredText",
+		"Scala",
+		"TCL",
+		"Textile",
+		"Vintage"
+	],
+	"indent_guide_options":
+	[
+		"draw_active",
+		"draw_normal"
+	],
+	"line_padding_bottom": 3,
+	"line_padding_top": 3,
+	"match_selection": false,
+	"material_theme_panel_seperator": true,
+	"material_theme_small_statusbar": true,
+	"open_files_in_new_window": false,
+	"preview_on_click": false,
+	"remember_open_files": false,
+	"rulers":
+	[
+		79,
+		100
+	],
+	"scroll_past_end": true,
+	"show_full_path": true,
+	"show_tab_close_buttons": false,
+	"tab_size": 2,
+	"tabs_medium": true,
+	"theme": "Afterglow.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"trim_automatic_white_space": false,
+	"trim_trailing_white_space_on_save": true,
+	"vintage_start_in_command_mode": true,
+	"word_separators": "./\\()\"'-_:,.;<>~!@#$%^&*|+=[]{}`~?\\."
+}
