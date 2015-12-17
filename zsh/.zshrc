@@ -27,6 +27,9 @@ source $HOME/.env
 # Replace git alias with hub (It's totally safe!)
 eval "$(hub alias -s)"
 # }}}
+# {{{ Composer
+export PATH="$PATH:$HOME/.composer/vendor/bin"
+# }}}
 # {{{ Antigen - A zsh plugin manager
 source $HOME/antigen.zsh
 
