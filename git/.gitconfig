@@ -24,3 +24,5 @@
 	default = simple
 [github]
 	user = dangamble89
+[ghi]
+	token = !security find-internet-password -a dangamble89 -s github.com -l 'ghi token' -w
