@@ -17,6 +17,8 @@ source $HOME/.dotfiles/zsh/.zshrcFunctions
 # Replace git alias with hub (It's totally safe!)
 eval "$(hub alias -s)"
 
+export PATH="$PATH:$HOME/.composer/vendor/bin"
+
 source $HOME/antigen.zsh
 
 # Use oh-my-zsh's library
