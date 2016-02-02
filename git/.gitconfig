@@ -3,18 +3,21 @@
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	pp = !git pull --rebase && git push
 	cb = checkout -
-	mb = !git checkout master && git fetch && git rebase origin/master && git merge - --no-ff
-    mbpp = !git mb && git push && git cb && git rebase master
+	mb = !git checkout develop && git pull && git checkout - && git rebase develop
+  mbpp = !git mb && git push && git cb && git rebase master
 	s = status
-    tempignored = !git ls-files -v | grep '^[[:lower:]]'
-    cleanignored = !git ls-files --ignored --exclude-standard | xargs git rm
+  tempignored = !git ls-files -v | grep '^[[:lower:]]'
+  cleanignored = !git ls-files --ignored --exclude-standard | xargs git rm
+  ff = !git flow feature finish
+  fp = !git flow feature publish
+  fs = !git flow feature start
 [apply]
-    whitespace = fix
+  whitespace = fix
 [core]
 	excludesfile = /Users/dangamble/.gitignore_global
 	editor = vim
-    whitespace = space-before-tab,-indent-with-non-tab,trailing-space
-	autocrlf = input
+  whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+  autocrlf = input
 [help]
 	autocorrect = 1
 [user]
@@ -23,6 +26,8 @@
 [push]
 	default = simple
 [github]
-	user = dangamble89
+	user = dan-gamble
 [ghi]
-	token = !security find-internet-password -a dangamble89 -s github.com -l 'ghi token' -w
+	token = !security find-internet-password -a danielgamble -s github.com -l 'ghi token' -w
+[pull]
+	rebase = true

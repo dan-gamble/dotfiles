@@ -11,6 +11,7 @@ unsetopt inc_append_history
 unsetopt share_history
 
 source $HOME/.aliases
+source $HOME/.env
 
 source $HOME/.dotfiles/zsh/.zshrcFunctions
 
@@ -37,6 +38,8 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle mafredri/zsh-async
 antigen bundle sindresorhus/pure
 antigen bundle tarruda/zsh-autosuggestions
+antigen bundle djui/alias-tips
+antigen bundle b4b4r07/enhancd
 
 antigen apply
 
