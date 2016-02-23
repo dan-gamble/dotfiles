@@ -1,11 +1,11 @@
 [alias]
-	cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	pp = !git pull --rebase && git push
-	cb = checkout -
-	mb = !git checkout develop && git pull && git checkout - && git rebase develop
+  cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  pp = !git pull --rebase && git push
+  cb = checkout -
+  mb = !git checkout develop && git pull && git checkout - && git rebase develop
   mbpp = !git mb && git push && git cb && git rebase master
-	s = status
+  s = status
   tempignored = !git ls-files -v | grep '^[[:lower:]]'
   cleanignored = !git ls-files --ignored --exclude-standard | xargs git rm
   ff = !git flow feature finish
@@ -14,20 +14,20 @@
 [apply]
   whitespace = fix
 [core]
-	excludesfile = /Users/dangamble/.gitignore_global
-	editor = vim
+  excludesfile = /Users/dangamble/.gitignore_global
+  editor = vim
   whitespace = space-before-tab,-indent-with-non-tab,trailing-space
   autocrlf = input
 [help]
-	autocorrect = 1
+  autocorrect = 1
 [user]
-	name = Dan Gamble
-	email = dangamble89@gmail.com
+  name = Dan Gamble
+  email = dangamble89@gmail.com
 [push]
-	default = simple
+  default = simple
 [github]
-	user = dan-gamble
+  user = dan-gamble
 [ghi]
-	token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
+  token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
 [pull]
-	rebase = true
+  rebase = true
