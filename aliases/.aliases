@@ -10,7 +10,7 @@ migrate(){
 }
 
 # Project up to date
-updateMe() {
+u() {
   ./manage.py pulldb
   ./manage.py pullmedia
   pip install -r requirement.txt
