@@ -11,9 +11,9 @@ migrate(){
 
 # Project up to date
 updateMe() {
-  ./manage.py pulldb;
-  ./manage.py pullmedia;
-  pip install -r requirement.txt;
+  ./manage.py pulldb
+  ./manage.py pullmedia
+  pip install -r requirement.txt
   npm i
 }
 
