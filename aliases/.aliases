@@ -9,6 +9,14 @@ migrate(){
     ./manage.py migrate
 }
 
+# Project up to date
+updateMe() {
+  ./manage.py pulldb;
+  ./manage.py pullmedia;
+  pip install -r requirement.txt;
+  npm i
+}
+
 # Pip
 alias publish='python setup.py register sdist upload'
 
@@ -173,3 +181,6 @@ alias ez='mvim ~/.zshrc'
 
 # Fuck
 alias fuck='eval $(thefuck $(fc -ln -1)); history -r'
+
+# Github issues
+alias i='ghi open -u dan-gamble'

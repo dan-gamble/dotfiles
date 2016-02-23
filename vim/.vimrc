@@ -125,6 +125,8 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'wellle/targets.vim'
 Plug 'vim-scripts/YankRing.vim'
 Plug 'morhetz/gruvbox'
+Plug 'posva/vim-vue'
+Plug 'wellle/targets.vim'
 
 call plug#end()
 

@@ -1,6 +1,6 @@
 export PATH="/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin"
 
-PATH="/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH"
+PATH="/Applications/Postgres.app/Contents/Versions/9.5/bin:$PATH"
 export PATH="~/Workspace/scripts/src/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 
@@ -19,6 +19,7 @@ source $HOME/.dotfiles/zsh/.zshrcFunctions
 eval "$(hub alias -s)"
 
 export PATH="$PATH:$HOME/.composer/vendor/bin"
+export PATH=$(brew --prefix)/share/python:$(brew --prefix)/share/python/bin:$(brew --prefix)/share/python/sbin:$PATH
 
 source $HOME/antigen.zsh
 
@@ -39,7 +40,8 @@ antigen bundle mafredri/zsh-async
 antigen bundle sindresorhus/pure
 antigen bundle tarruda/zsh-autosuggestions
 antigen bundle djui/alias-tips
-antigen bundle b4b4r07/enhancd
 
 antigen apply
+
+function code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*; }
 

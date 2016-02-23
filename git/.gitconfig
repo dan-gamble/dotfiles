@@ -28,6 +28,6 @@
 [github]
 	user = dan-gamble
 [ghi]
-	token = !security find-internet-password -a danielgamble -s github.com -l 'ghi token' -w
+	token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
 [pull]
 	rebase = true
