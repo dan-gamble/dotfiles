@@ -1,6 +1,6 @@
 [alias]
   cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   pp = !git pull --rebase && git push
   cb = checkout -
   mb = !git checkout develop && git pull && git checkout - && git rebase develop
@@ -11,6 +11,7 @@
   ff = !git flow feature finish
   fp = !git flow feature publish
   fs = !git flow feature start
+  pr = "!f() { git checkout develop && git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && git rebase -i origin/develop && git checkout develop && git merge - && git push; }; f"
 [apply]
   whitespace = fix
 [core]
@@ -31,3 +32,5 @@
   token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
 [pull]
   rebase = true
+[init]
+	templatedir = ~/.git_template

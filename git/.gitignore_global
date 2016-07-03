@@ -280,3 +280,5 @@ jspm_packages
 # Webpack
 webpack-stats.json
 bundles/
+
+.venv

@@ -2,19 +2,37 @@
 runserver(){
     while true; do python manage.py runserver_plus 0.0.0.0:8000; sleep 3; done
 }
-makemigrations(){
-    ./manage.py makemigrations
+alias m="./manage.py migrate"
+mm(){
+  if pip --disable-pip-version-check freeze | grep -q South > /dev/null 2>&1; then
+    ./manage.py schemamigration $1 --au
+  else
+    ./manage.py makemigrations $1
+  fi
 }
-migrate(){
-    ./manage.py migrate
-}
+alias mmm="mm; m"
+
+# Show/hide hidden files in Finder
+alias la="ls -laF ${colorflag}"
 
 # Project up to date
 u() {
+  git pull
+  pip install -r requirements.txt
+  npm i
   ./manage.py pulldb
   ./manage.py pullmedia
-  pip install -r requirement.txt
-  npm i
+  runserver
+}
+
+# iSort fixing
+isortfix='isort --skip-glob=.venv --skip-glob=node_modules --skip-glob=*/migrations/*'
+
+mov2gif() {
+  SCALE=${3:-0.4}
+  ffmpeg -y -i $1 -vf fps=${2:30},scale=iw*$SCALE:ih*$SCALE,palettegen palette.png
+  ffmpeg -i $1 -i palette.png -filter_complex "fps=${2:30},scale=iw*$SCALE:ih*$SCALE,paletteuse" $1.gif
+  open -R $1.gif
 }
 
 # Pip
@@ -57,8 +75,9 @@ alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
-# Recursively delete `.DS_Store` files
-alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+# Recursively delete files
+alias clean_ds="find . -type f -name '*.DS_Store' -ls -delete"
+alias clean_pyc="find . -type f -name '*.pyc' -ls -delete"
 
 # Show/hide hidden files in Finder
 alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
@@ -70,3 +89,12 @@ alias ez='mvim ~/.zshrc'
 
 # Github issues
 alias i='ghi open -u dan-gamble'
+
+# Homestead
+alias homestead='function __homestead() { (cd ~/Homestead && vagrant $*); unset -f __homestead; }; __homestead'
+
+# Lock the screen (when going AFK)
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+
+# Photoshop
+alias psd="open -a /Applications/Adobe\ Photoshop\ CC\ 2015/Adobe\ Photoshop\ CC\ 2015.app"
