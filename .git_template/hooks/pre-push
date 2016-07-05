@@ -1,0 +1,49 @@
+#!/bin/bash
+. ~/.zshrcPrePush
+. .venv/bin/activate
+
+pip install -q --disable-pip-version-check pylint pylint-django pylint-mccabe isort
+
+IN_TEST=false
+IN_OVERRIDE=false
+FAILED=false
+
+while read line; do
+
+	if [ "$line" == "test:" ]; then
+		IN_TEST=true
+		continue
+	fi
+
+	if [ $IN_TEST == true -a "$line" == "override:" ]; then
+		IN_OVERRIDE=true
+		continue
+	fi
+
+	if [ $IN_TEST != true -o $IN_OVERRIDE != true ]; then
+		continue
+	fi
+
+	if [ ${#line} -eq 0 ]; then
+		break
+	fi
+
+	echo ">>> ${line:2}"
+	eval ${line:2}
+
+	if [ $? -ne 0 ]; then
+		echo "<<< Check failed."
+		FAILED=true
+	else
+		echo "<<< Check passed."
+	fi
+
+	echo
+
+done < circle.yml
+
+if [ $FAILED == true ]; then
+	exit 1
+fi
+
+exit 0
