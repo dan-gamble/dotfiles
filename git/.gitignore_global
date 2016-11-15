@@ -282,3 +282,9 @@ webpack-stats.json
 bundles/
 
 .venv
+.vscode
+typings
+.history
+typings.json
+jsconfig.json
+yarn.lock

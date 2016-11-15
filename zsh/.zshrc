@@ -18,11 +18,29 @@ source $HOME/.aliases
 # Replace git alias with hub (It's totally safe!)
 eval "$(hub alias -s)"
 
+export GITHUB_TOKEN=35649c726c483d298ce419cafc0b0a0d53d0baf9
+
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 export PATH=$(brew --prefix)/share/python:$(brew --prefix)/share/python/bin:$(brew --prefix)/share/python/sbin:$PATH
+export PATH=$PATH:/usr/local/opt/go/libexec/bin # Go
+export PATH="$PATH:$HOME/.yarn/bin"
+export GOPATH=$HOME/.go # Go
+export EDITOR=vim
+
+# fzf
+# --files: List files that would be searched but do not search
+# --no-ignore: Do not respect .gitignore, etc...
+# --hidden: Search hidden files and folders
+# --follow: Follow symlinks
+# --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 source $HOME/antigen.zsh
 source /usr/local/Cellar/z/1.9
+export NVM_DIR="/Users/dangamble/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+autoload -U zmv
 
 # Use oh-my-zsh's library
 antigen use oh-my-zsh
@@ -41,12 +59,9 @@ antigen bundle mafredri/zsh-async
 antigen bundle sindresorhus/pure
 antigen bundle tarruda/zsh-autosuggestions
 antigen bundle djui/alias-tips
+antigen bundle lukechilds/zsh-nvm
 
 antigen apply
-
-
-export NVM_DIR="/Users/dangamble/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # Autoload .nvmrc file if it exists
 autoload -U add-zsh-hook
@@ -56,3 +71,9 @@ load-nvmrc() {
   fi
 }
 add-zsh-hook chpwd load-nvmrc
+
+. `brew --prefix`/etc/profile.d/z.sh
+
+compctl -g '~/.itermocil/*(:t:r)' itermocil
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
