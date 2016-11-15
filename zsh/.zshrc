@@ -18,9 +18,6 @@ source $HOME/.aliases
 # Replace git alias with hub (It's totally safe!)
 eval "$(hub alias -s)"
 
-export GITHUB_TOKEN=35649c726c483d298ce419cafc0b0a0d53d0baf9
-
-export PATH="$PATH:$HOME/.composer/vendor/bin"
 export PATH=$(brew --prefix)/share/python:$(brew --prefix)/share/python/bin:$(brew --prefix)/share/python/sbin:$PATH
 export PATH=$PATH:/usr/local/opt/go/libexec/bin # Go
 export PATH="$PATH:$HOME/.yarn/bin"
