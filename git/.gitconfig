@@ -6,12 +6,14 @@
   mb = !git checkout develop && git pull && git checkout - && git rebase develop
   mbpp = !git mb && git push && git cb && git rebase master
   s = status
+  am = commit --amend
   tempignored = !git ls-files -v | grep '^[[:lower:]]'
   cleanignored = !git ls-files --ignored --exclude-standard | xargs git rm
   ff = !git flow feature finish
   fp = !git flow feature publish
   fs = !git flow feature start
   pr = "!f() { git checkout develop && git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && git rebase -i origin/develop && git checkout develop && git merge - && git push; }; f"
+  commend = commit --amend --no-edit
 [apply]
   whitespace = fix
 [core]
@@ -24,6 +26,7 @@
 [user]
   name = Dan Gamble
   email = dangamble89@gmail.com
+	signingkey = FB490D07
 [push]
   default = simple
 [github]
@@ -32,5 +35,5 @@
   token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
 [pull]
   rebase = true
-[init]
-	templatedir = ~/.git_template
+[commit]
+	gpgsign = true

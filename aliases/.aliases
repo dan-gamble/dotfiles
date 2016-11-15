@@ -1,6 +1,7 @@
 # Django
 runserver(){
-    while true; do python manage.py runserver_plus 0.0.0.0:8000; sleep 3; done
+    PORT=8000
+    while true; do python manage.py runserver_plus 0.0.0.0:$PORT; sleep 3; done
 }
 alias m="./manage.py migrate"
 mm(){
@@ -35,6 +36,8 @@ mov2gif() {
   open -R $1.gif
 }
 
+ctags='/usr/local/bin/ctags'
+
 # Pip
 alias publish='python setup.py register sdist upload'
 
@@ -47,6 +50,7 @@ cleanbranches() {
 }
 
 # Shortcuts
+alias vim="nvim"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias ws="cd ~/Workspace"
@@ -85,7 +89,7 @@ alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && kil
 
 # Shell conveniences
 alias sz='source ~/.zshrc'
-alias ez='mvim ~/.zshrc'
+alias ez='vim ~/.zshrc'
 
 # Github issues
 alias i='ghi open -u dan-gamble'
@@ -98,3 +102,7 @@ alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resource
 
 # Photoshop
 alias psd="open -a /Applications/Adobe\ Photoshop\ CC\ 2015/Adobe\ Photoshop\ CC\ 2015.app"
+
+# Npm run dev
+alias nrd="npm run dev"
+alias nrb="npm run build"

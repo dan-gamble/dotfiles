@@ -1,6 +1,6 @@
 #!/bin/bash
 . ~/.zshrcPrePush
-. .venv/bin/activate
+workon "${PWD##*/}"
 
 pip install -q --disable-pip-version-check pylint pylint-django pylint-mccabe isort
 
