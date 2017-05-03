@@ -283,8 +283,10 @@ bundles/
 
 .venv
 .vscode
+.code
 typings
-.history
+.history/
 typings.json
 jsconfig.json
-yarn.lock
+/.gtm/
+*.d.ts
