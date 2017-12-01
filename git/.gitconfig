@@ -30,16 +30,18 @@
 [help]
 	autocorrect = 0
 [user]
-  name = Dan Gamble
-  email = dangamble89@gmail.com
-	signingkey = FB490D07
+	name = Dan Gamble
+	email = dan@dangamble.co.uk
+	signingkey = 0956160665BAE85D
+[pull]
+  rebase = true
 [push]
   default = simple
 [github]
   user = dan-gamble
 [ghi]
-  token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
-[pull]
-  rebase = true
+	token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
 [commit]
 	gpgsign = true
+[gpg]
+	program = gpg
