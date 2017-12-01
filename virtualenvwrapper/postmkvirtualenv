@@ -2,7 +2,4 @@
 # This hook is sourced after a new virtualenv is activated.
 
 proj_name=$(basename $VIRTUAL_ENV)
-mkdir $HOME/Workspace/$proj_name
 add2virtualenv $HOME/Workspace/$proj_name
-cd $HOME/Workspace/$proj_name
-ln -s $HOME/Envs/$proj_name .venv
