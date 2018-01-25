@@ -4,6 +4,7 @@ export EDITOR=nvim VISUAL=nvim
 gc() {
   git commit -m "$*"
   git log --oneline --decorate -n 10
+  gtm commit --yes
 }
 
 export PATH="/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin"
