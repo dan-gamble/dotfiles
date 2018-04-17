@@ -24,7 +24,7 @@
   whitespace = fix
 [core]
   excludesfile = /Users/dangamble/.gitignore_global
-  editor = nvim
+  editor = vim
   whitespace = space-before-tab,-indent-with-non-tab,trailing-space
   autocrlf = input
 [help]
@@ -32,7 +32,7 @@
 [user]
 	name = Dan Gamble
 	email = dan@dangamble.co.uk
-	signingkey = 0956160665BAE85D
+	signingkey = 54E93117FCC31FE3
 [pull]
   rebase = true
 [push]
