@@ -1,4 +1,4 @@
-export EDITOR=nvim VISUAL=nvim
+export HOMEBREW_CASK_OPTS="--appdir=~/Applications --fontdir=/Library/Fonts"
 
 # Commit what's been staged, use args as message.
 gc() {
@@ -8,11 +8,11 @@ gc() {
 }
 
 export PATH="/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin"
-export PATH="/Applications/Postgres.app/Contents/Versions/9.6/bin:$PATH"
+export PATH="/Applications/Postgres.app/Contents/Versions/10/bin:$PATH"
 export PATH="~/Workspace/scripts/src/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 
-export WORKON_HOME=~/Envs
+export WORKON_HOME=~/.virtualenvs
 source /usr/local/bin/virtualenvwrapper.sh
 
 unsetopt inc_append_history
@@ -102,3 +102,5 @@ export PATH="/usr/local/opt/openssl/bin:$PATH"
 
 export CPPFLAGS=-I$(brew --prefix openssl)/include
 export LDFLAGS=-L$(brew --prefix openssl)/lib
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+eval "$(pipenv --completion)"

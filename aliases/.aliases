@@ -54,7 +54,6 @@ cleanbranches() {
 }
 
 # Shortcuts
-alias vim="nvim"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias ws="cd ~/Workspace"
@@ -103,6 +102,10 @@ alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resource
 
 # Photoshop
 alias psd="open -a /Applications/Adobe\ Photoshop\ CC\ 2015/Adobe\ Photoshop\ CC\ 2015.app"
+
+# Yarn run dev
+alias yrd="yarn run dev"
+alias yrb="yarn run build"
 
 # Npm run dev
 alias nrd="npm run dev"
