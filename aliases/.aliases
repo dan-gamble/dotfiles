@@ -110,3 +110,6 @@ alias yrb="yarn run build"
 # Npm run dev
 alias nrd="npm run dev"
 alias nrb="npm run build"
+
+alias cat="bat"
+alias ping='prettyping --nolegend'
