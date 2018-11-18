@@ -13,6 +13,8 @@
   ff = !git flow feature finish
   fp = !git flow feature publish
   fs = !git flow feature start
+  frs = !git flow release start
+  frf = !git flow release finish
   pr = "!f() { git checkout develop && git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && git rebase -i origin/develop && git checkout develop && git merge - && git push; }; f"
   commend = commit --amend --no-edit
 [merge]
@@ -28,11 +30,13 @@
   whitespace = space-before-tab,-indent-with-non-tab,trailing-space
   autocrlf = input
 [help]
-	autocorrect = 0
+  autocorrect = 0
 [user]
-	name = Dan Gamble
-	email = dan@dangamble.co.uk
-	signingkey = 54E93117FCC31FE3
+  name = Dan Gamble
+  email = dan@dangamble.co.uk
+  signingkey = 54E93117FCC31FE3
+[rebase]
+  autosquash = true
 [pull]
   rebase = true
 [push]
@@ -40,8 +44,9 @@
 [github]
   user = dan-gamble
 [ghi]
-	token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
+  token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
 [commit]
-	gpgsign = true
+  gpgsign = true
 [gpg]
-	program = gpg
+  program = gpg
+
