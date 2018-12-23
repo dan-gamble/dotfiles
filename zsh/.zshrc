@@ -1,12 +1,5 @@
 export HOMEBREW_CASK_OPTS="--appdir=~/Applications --fontdir=/Library/Fonts"
 
-# Commit what's been staged, use args as message.
-gc() {
-  git commit -m "$*"
-  git log --oneline --decorate -n 10
-  gtm commit --yes
-}
-
 export PATH="/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin"
 export PATH="/Applications/Postgres.app/Contents/Versions/10/bin:$PATH"
 export PATH="~/Workspace/scripts/src/bin:$PATH"
@@ -107,3 +100,4 @@ eval "$(pipenv --completion)"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi

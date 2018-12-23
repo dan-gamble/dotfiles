@@ -3,6 +3,12 @@ runserver(){
     PORT=8000
     while true; do python manage.py runserver_plus 0.0.0.0:$PORT; sleep 3; done
 }
+# Commit what's been staged, use args as message.
+gc() {
+  git commit -m "$*"
+  git log --oneline --decorate -n 10
+  gtm commit --yes
+}
 alias m="./manage.py migrate"
 mm(){
   if pip --disable-pip-version-check freeze | grep -q South > /dev/null 2>&1; then
