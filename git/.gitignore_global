@@ -288,3 +288,4 @@ jsconfig.json
 /.gtm/
 *.d.ts
 .env
+/.next
