@@ -19,51 +19,14 @@ mm(){
 }
 alias mmm="mm; m"
 
-mkcd(){
-  mkdir $1 && cd $_
-}
-
-# Show/hide hidden files in Finder
-alias la="ls -laF ${colorflag}"
-
-# Project up to date
-u() {
-  git pull
-  pip install -r requirements.txt
-  npm i
-  ./manage.py pulldb
-  ./manage.py pullmedia
-  runserver
-}
-
-# iSort fixing
-isortfix='isort --skip-glob=.venv --skip-glob=node_modules --skip-glob=*/migrations/*'
-
-mov2gif() {
-  SCALE=${3:-0.4}
-  ffmpeg -y -i $1 -vf fps=${2:30},scale=iw*$SCALE:ih*$SCALE,palettegen palette.png
-  ffmpeg -i $1 -i palette.png -filter_complex "fps=${2:30},scale=iw*$SCALE:ih*$SCALE,paletteuse" $1.gif
-  open -R $1.gif
-}
-
-ctags='/usr/local/bin/ctags'
-
-# Pip
-alias publish='python setup.py register sdist upload'
-
 # Git
 # Git lg
 git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 
 cleanbranches() {
-    git branch --merged master | grep -v "\master" | xargs -n 1 git branch -d
+  git branch --merged master | grep -v "\master" | xargs -n 1 git branch -d
 }
 
-# Shortcuts
-alias dl="cd ~/Downloads"
-alias dt="cd ~/Desktop"
-alias ws="cd ~/Workspace"
-alias g="git"
 alias h="history"
 
 # Detect which `ls` flavor is in use
@@ -97,25 +60,12 @@ alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && kil
 alias sz='source ~/.zshrc'
 alias ez='vim ~/.zshrc'
 
-# Github issues
-alias i='ghi open -u dan-gamble'
-
-# Homestead
-alias homestead='function __homestead() { (cd ~/Homestead && vagrant $*); unset -f __homestead; }; __homestead'
-
 # Lock the screen (when going AFK)
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-
-# Photoshop
-alias psd="open -a /Applications/Adobe\ Photoshop\ CC\ 2015/Adobe\ Photoshop\ CC\ 2015.app"
 
 # Yarn run dev
 alias yrd="yarn run dev"
 alias yrb="yarn run build"
-
-# Npm run dev
-alias nrd="npm run dev"
-alias nrb="npm run build"
 
 alias cat="bat"
 alias ping='prettyping --nolegend'
