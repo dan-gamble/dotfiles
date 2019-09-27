@@ -175,7 +175,6 @@ dist/
 downloads/
 eggs/
 lib64/
-parts/
 sdist/
 var/
 *.egg-info/
