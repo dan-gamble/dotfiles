@@ -35,12 +35,7 @@ set autoindent
 
 let g:netrw_list_hide= '.*\.pyc$'
 
-" stop vim exiting if there are no files open
-cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'close' : 'q')<CR>
-
 " Mappings {{{
-nnoremap ; :
-nnoremap : ;
 
 " file navigation
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
@@ -100,8 +95,8 @@ augroup END
 call plug#begin('~/.vim/plugged')
 
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'rstacruz/vim-hyperstyle'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -127,6 +122,7 @@ Plug 'vim-scripts/YankRing.vim'
 Plug 'morhetz/gruvbox'
 Plug 'posva/vim-vue'
 Plug 'wellle/targets.vim'
+Plug 'neoclide/coc.nvim'
 
 call plug#end()
 
@@ -165,14 +161,6 @@ vmap <C-v> <Plug>(expand_region_shrink)
 " }}}
 " Gundo {{{
 nnoremap <leader>u :GundoToggle<CR>
-" }}}
-" Ultisnips {{{
-let g:UltiSnipsExpandTrigger='<tab>'
-let g:UltiSnipsJumpForwardTrigger='<tab>'
-let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
 " }}}
 " Yankring {{{
 nnoremap <silent> <leader>p :YRShow<cr>
@@ -220,13 +208,6 @@ nnoremap <leader>, :nohlsearch<cr>
 vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>
     \:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
 omap s :normal vs<CR>
-" }}}
-" Folding {{{
-filetype indent on
-set foldmethod=indent
-set foldlevel=99
-
-nnoremap <leader><space> za
 " }}}
 " File Specific {{{
 " CSS {{{
