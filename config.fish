@@ -20,3 +20,4 @@ set HOMEBREW_CASK_OPTS "--appdir=~/Applications --fontdir=/Library/Fonts"
 # set LDFLAGS -L(brew --prefix openssl)/lib
 
 set SPACEFISH_TIME_SHOW true
+rvm default
