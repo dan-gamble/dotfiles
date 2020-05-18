@@ -34,29 +34,29 @@ export TTC_WEATHER='CB12LG'
 
 source $HOME/antigen.zsh
 source /usr/local/Cellar/z/1.9
-export NVM_DIR="/Users/dangamble/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# export NVM_DIR="/Users/dangamble/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 # place this after nvm initialization!
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use
-    fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
+# autoload -U add-zsh-hook
+# load-nvmrc() {
+#   local node_version="$(nvm version)"
+#   local nvmrc_path="$(nvm_find_nvmrc)"
+#
+#   if [ -n "$nvmrc_path" ]; then
+#     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+#
+#     if [ "$nvmrc_node_version" = "N/A" ]; then
+#       nvm install
+#     elif [ "$nvmrc_node_version" != "$node_version" ]; then
+#       nvm use
+#     fi
+#   elif [ "$node_version" != "$(nvm version default)" ]; then
+#     echo "Reverting to nvm default version"
+#     nvm use default
+#   fi
+# }
+# add-zsh-hook chpwd load-nvmrc
+# load-nvmrc
 
 autoload -U zmv
 
@@ -77,12 +77,13 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle mafredri/zsh-async
 antigen bundle tarruda/zsh-autosuggestions
 antigen bundle djui/alias-tips
-antigen bundle lukechilds/zsh-nvm
+antigen theme denysdovhan/spaceship-prompt
+# antigen bundle lukechilds/zsh-nvm
 
 antigen apply
 
 autoload -U promptinit; promptinit
-prompt pure
+prompt spaceship
 
 compctl -g '~/.itermocil/*(:t:r)' itermocil
 
@@ -95,9 +96,33 @@ export PATH="/usr/local/opt/openssl/bin:$PATH"
 
 export CPPFLAGS=-I$(brew --prefix openssl)/include
 export LDFLAGS=-L$(brew --prefix openssl)/lib
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 eval "$(pipenv --completion)"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+[ -f "/Users/dangamble/.shopify-app-cli/shopify.sh" ] && source "/Users/dangamble/.shopify-app-cli/shopify.sh"
+
+eval "$(fnm env --multi)"
+
+export PATH=/Users/dangamble/.fnm/current/bin:$PATH
+export FNM_MULTISHELL_PATH=/Users/dangamble/.fnm/current
+export FNM_DIR=/Users/dangamble/.fnm/
+export FNM_NODE_DIST_MIRROR=https://nodejs.org/dist
+export FNM_LOGLEVEL=info
+
+autoload -U add-zsh-hook
+_fnm_autoload_hook () {
+  if [[ -f .node-version && -r .node-version ]]; then
+    echo "fnm: Found .node-version"
+    fnm use
+  elif [[ -f .nvmrc && -r .nvmrc ]]; then
+    echo "fnm: Found .nvmrc"
+    fnm use
+  fi
+}
+
+add-zsh-hook chpwd _fnm_autoload_hook && _fnm_autoload_hook
+
