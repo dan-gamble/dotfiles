@@ -44,9 +44,14 @@
 [github]
   user = dan-gamble
 [ghi]
-  token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
+	token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
 [commit]
   gpgsign = true
 [gpg]
   program = gpg
 
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
