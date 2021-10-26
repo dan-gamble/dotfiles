@@ -170,7 +170,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-env/
 develop-eggs/
 dist/
 downloads/
@@ -288,4 +287,5 @@ jsconfig.json
 /.gtm/
 *.d.ts
 .env
+.zshenv
 /.next

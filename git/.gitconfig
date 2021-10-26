@@ -18,7 +18,6 @@
   pr = "!f() { git checkout develop && git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && git rebase -i origin/develop && git checkout develop && git merge - && git push; }; f"
   commend = commit --amend --no-edit
 [merge]
-  ff = only
   conflictstyle = diff3
 [status]
   showUntrackedFiles = all
@@ -34,7 +33,6 @@
 [user]
   name = Dan Gamble
   email = dan@dangamble.co.uk
-  signingkey = 54E93117FCC31FE3
 [rebase]
   autosquash = true
 [pull]
@@ -45,8 +43,6 @@
   user = dan-gamble
 [ghi]
 	token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
-[commit]
-  gpgsign = true
 [gpg]
   program = gpg
 
