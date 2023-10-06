@@ -29,6 +29,8 @@
 ## File-based project format:
 *.ipr
 *.iws
+.plugged/
+plugged/
 
 ## Plugin-specific files:
 
@@ -283,9 +285,7 @@ bundles/
 typings
 .history/
 typings.json
-jsconfig.json
 /.gtm/
-*.d.ts
 .env
 .zshenv
 /.next
