@@ -1,0 +1,103 @@
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"Setting","setting":"theme","value":"Rosé Pine Moon"}
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"Setting","setting":"keymap","value":"VSCode"}
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"App","operation":"open"}
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"Editor","operation":"open","file_extension":"ts","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":false,"milliseconds_since_first_event":20,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":false,"milliseconds_since_first_event":57,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":8115,"type":"Action","source":"command palette","action":"zed: extensions"}
+{"signed_in":true,"milliseconds_since_first_event":8115,"type":"App","operation":"extensions page: open"}
+{"signed_in":true,"milliseconds_since_first_event":16346,"type":"App","operation":"extensions: install extension"}
+{"signed_in":true,"milliseconds_since_first_event":19434,"type":"Extension","extension_id":"catppuccin","version":"0.2.6"}
+{"signed_in":true,"milliseconds_since_first_event":19505,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":19506,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":19779,"type":"Extension","extension_id":"catppuccin","version":"0.2.6"}
+{"signed_in":true,"milliseconds_since_first_event":19847,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":73488,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":82821,"type":"App","operation":"extensions: uninstall extension"}
+{"signed_in":true,"milliseconds_since_first_event":83155,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":84371,"type":"App","operation":"extensions: install extension"}
+{"signed_in":true,"milliseconds_since_first_event":85397,"type":"Extension","extension_id":"catppuccin","version":"0.2.6"}
+{"signed_in":true,"milliseconds_since_first_event":85471,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":85473,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":88080,"type":"Setting","setting":"theme","value":"Catppuccin Macchiato"}
+{"signed_in":true,"milliseconds_since_first_event":88083,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":88090,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":88204,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":97300,"type":"App","operation":"extensions: install extension"}
+{"signed_in":true,"milliseconds_since_first_event":98514,"type":"Extension","extension_id":"sql","version":"1.0.0"}
+{"signed_in":true,"milliseconds_since_first_event":98516,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":131632,"type":"App","operation":"extensions: install extension"}
+{"signed_in":true,"milliseconds_since_first_event":132475,"type":"Extension","extension_id":"html","version":"0.0.1"}
+{"signed_in":true,"milliseconds_since_first_event":132541,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":136685,"type":"App","operation":"extensions: install extension"}
+{"signed_in":true,"milliseconds_since_first_event":137492,"type":"Extension","extension_id":"toml","version":"0.1.0"}
+{"signed_in":true,"milliseconds_since_first_event":137583,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":145228,"type":"App","operation":"extensions: install extension"}
+{"signed_in":true,"milliseconds_since_first_event":145928,"type":"Extension","extension_id":"graphql","version":"0.0.2"}
+{"signed_in":true,"milliseconds_since_first_event":145930,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":148002,"type":"App","operation":"extensions: install extension"}
+{"signed_in":true,"milliseconds_since_first_event":148674,"type":"Extension","extension_id":"emmet","version":"0.0.2"}
+{"signed_in":true,"milliseconds_since_first_event":148737,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":174904,"type":"App","operation":"extensions: install extension"}
+{"signed_in":true,"milliseconds_since_first_event":175694,"type":"Extension","extension_id":"biome","version":"0.0.6"}
+{"signed_in":true,"milliseconds_since_first_event":175794,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":240072,"type":"Memory","memory_in_bytes":120242176,"virtual_memory_in_bytes":502164652032}
+{"signed_in":true,"milliseconds_since_first_event":240072,"type":"Cpu","usage_as_percentage":8.227234,"core_count":10}
+{"signed_in":true,"milliseconds_since_first_event":245161,"type":"Editor","operation":"open","file_extension":"tsx","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}
+{"signed_in":true,"milliseconds_since_first_event":245161,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":245215,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":245215,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":245217,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":245217,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":246306,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":0,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":6,"type":"Editor","operation":"open","file_extension":"json","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}
+{"signed_in":true,"milliseconds_since_first_event":6,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":10,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":10,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":11,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":1374,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":1626,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":1659,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":1691,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":1725,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":1759,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":1792,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":1825,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":1858,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":1892,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":1926,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":2242,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":2561,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":2716,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":2876,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":3060,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":3968,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":4173,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":9484,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":10402,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":10959,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":10960,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":11302,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":11302,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":11310,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":11386,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":11386,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":11400,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":11643,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":11643,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":11929,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":12088,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":12985,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":12986,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":13637,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":13638,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":13644,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":13710,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":13710,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":13718,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":13944,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":13944,"type":"Copilot","suggestion_id":null,"suggestion_accepted":false,"file_extension":null}
+{"signed_in":true,"milliseconds_since_first_event":14618,"type":"Action","source":"command palette","action":":write"}
+{"signed_in":true,"milliseconds_since_first_event":14618,"type":"Editor","operation":"save","file_extension":"json","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}

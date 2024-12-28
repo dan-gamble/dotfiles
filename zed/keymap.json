@@ -1,0 +1,17 @@
+[
+	{
+		"context": "Editor",
+		"bindings": {
+			"alt-up": "editor::SelectLargerSyntaxNode",
+			"alt-down": "editor::SelectSmallerSyntaxNode",
+			"ctrl-cmd-up": "editor::MoveLineUp",
+			"ctrl-cmd-down": "editor::MoveLineDown"
+		}
+	},
+	{
+		"context": "Workspace",
+		"bindings": {
+			"cmd-shift-e": "project_panel::RevealInFileManager"
+		}
+	}
+]
