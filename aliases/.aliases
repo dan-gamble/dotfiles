@@ -1,13 +1,23 @@
-# Django
-runserver(){
-    PORT=8000
-    while true; do python manage.py runserver_plus 0.0.0.0:$PORT; sleep 3; done
-}
 # Commit what's been staged, use args as message.
-gc() {
+function gc () {
   git commit -m "$*"
   git log --oneline --decorate -n 10
   gtm commit --yes
+}
+function loadenv {
+  set -a; source "${1:-.env}"; set +a;
+}
+function t () {
+  sesh connect \"$(
+	sesh list -tz | fzf-tmux -p 55%,60% \
+		--no-sort --border-label ' sesh ' --prompt '⚡  ' \
+		--header '  ^a all ^t tmux ^x zoxide ^f find' \
+		--bind 'tab:down,btab:up' \
+		--bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list)' \
+		--bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t)' \
+		--bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z)' \
+		--bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)'
+  )\"
 }
 alias m="./manage.py migrate"
 mm(){
@@ -58,7 +68,8 @@ alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && kil
 
 # Shell conveniences
 alias sz='source ~/.zshrc'
-alias ez='vim ~/.zshrc'
+alias ez='vim ~/.dotfiles/zsh/.zshrc'
+alias ex='vim ~/.dotfiles/tmux/tmux.conf'
 
 # Lock the screen (when going AFK)
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
@@ -69,3 +80,12 @@ alias yrb="yarn run build"
 
 alias cat="bat"
 alias ping='prettyping --nolegend'
+
+alias vim='nvim'
+
+# using ripgrep combined with preview
+# find-in-file - usage: fif <searchTerm>
+fif() {
+  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+  rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
+}

@@ -17,6 +17,9 @@
   frf = !git flow release finish
   pr = "!f() { git checkout develop && git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && git rebase -i origin/develop && git checkout develop && git merge - && git push; }; f"
   commend = commit --amend --no-edit
+[diff]
+  algorithm = histogram
+  colorMoved = default
 [merge]
   conflictstyle = diff3
 [status]
@@ -35,16 +38,26 @@
   email = dan@dangamble.co.uk
 [rebase]
   autosquash = true
+  autostash = true
 [pull]
   rebase = true
 [push]
-  default = simple
+  default = current
 [github]
   user = dan-gamble
 [ghi]
 	token = !security find-internet-password -a dan-gamble -s github.com -l 'ghi token' -w
 [gpg]
   program = gpg
+[rerere]
+  enabled = true
+[core]
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
+  light = false
 
 [filter "lfs"]
 	required = true
