@@ -1,0 +1,70 @@
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
+
+eval "$(starship init zsh)"
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
+
+export EDITOR=nvim
+
+export GITHUB_TOKEN=''
+
+source $HOME/.aliases
+
+source $HOME/antigen.zsh
+
+autoload zmv
+
+setopt auto_cd
+
+# Load the oh-my-zsh's library.
+# antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git
+antigen bundle heroku
+antigen bundle command-not-found
+
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle lukechilds/zsh-better-npm-completion
+
+# Tell Antigen that you're done.
+antigen apply
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export HISTSIZE=200000
+export HISTFILE="$HOME/.history"
+
+export SAVEHIST=$HISTSIZE
+
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+
+# pnpm
+export PNPM_HOME="/Users/dangamble/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+alias l="eza -l --icons --git -a"
+alias lt="eza --tree --level=2 --long --icons --git"
+
+eval "$(zoxide init zsh)"
+# eval "$(zellij setup --generate-auto-start zsh)"
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
