@@ -1,0 +1,182 @@
+{
+	"name": "vscode-graphql-syntax",
+	"version": "1.3.8",
+	"displayName": "GraphQL: Syntax Highlighting",
+	"description": "Adds syntax highlighting support for .graphql & embedded support for javascript, typescript, vue, markdown, python, php, reason, ocaml and rescript",
+	"publisher": "GraphQL",
+	"license": "MIT",
+	"private": true,
+	"engines": {
+		"vscode": "^1.63.0"
+	},
+	"files": [
+		"assets",
+		"grammars",
+		"language",
+		"README.md",
+		"LICENSE",
+		"CHANGELOG.md",
+		"package.json"
+	],
+	"icon": "assets/images/logo.png",
+	"contributors": [
+		{
+			"name": "Divyendu Singh",
+			"url": "https://www.divyendusingh.com/"
+		}
+	],
+	"galleryBanner": {
+		"color": "#032539",
+		"theme": "dark"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "graphql",
+				"extensions": [
+					".gql",
+					".graphql",
+					".graphqls"
+				],
+				"aliases": [
+					"GraphQL",
+					"graphql"
+				],
+				"configuration": "./language/language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "graphql",
+				"path": "./grammars/graphql.json",
+				"scopeName": "source.graphql"
+			},
+			{
+				"injectTo": [
+					"source.js",
+					"source.ts",
+					"source.js.jsx",
+					"source.tsx",
+					"source.vue",
+					"source.svelte",
+					"source.astro",
+					"text.html.markdown",
+					"text.html.derivative"
+				],
+				"scopeName": "inline.graphql",
+				"path": "./grammars/graphql.js.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.graphql": "graphql"
+				}
+			},
+			{
+				"injectTo": [
+					"source.reason",
+					"source.ocaml",
+					"text.html.markdown",
+					"text.html.derivative"
+				],
+				"scopeName": "inline.graphql.re",
+				"path": "./grammars/graphql.re.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.graphql": "graphql"
+				}
+			},
+			{
+				"injectTo": [
+					"source.rescript",
+					"text.html.markdown",
+					"text.html.derivative"
+				],
+				"scopeName": "inline.graphql.res",
+				"path": "./grammars/graphql.rescript.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.graphql": "graphql"
+				}
+			},
+			{
+				"injectTo": [
+					"text.html.markdown",
+					"text.html.derivative"
+				],
+				"scopeName": "inline.graphql.markdown.codeblock",
+				"path": "./grammars/graphql.markdown.codeblock.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.graphql": "graphql"
+				}
+			},
+			{
+				"injectTo": [
+					"source.python",
+					"text.html.markdown",
+					"text.html.derivative"
+				],
+				"scopeName": "inline.graphql.python",
+				"path": "./grammars/graphql.python.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.graphql": "graphql"
+				}
+			},
+			{
+				"injectTo": [
+					"text.html.php",
+					"text.html.markdown",
+					"text.html.derivative"
+				],
+				"scopeName": "inline.graphql.php",
+				"path": "./grammars/graphql.php.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.graphql": "graphql"
+				}
+			},
+			{
+				"injectTo": [
+					"source.scala",
+					"text.html.markdown",
+					"text.html.derivative"
+				],
+				"scopeName": "inline.graphql.scala",
+				"path": "./grammars/graphql.scala.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.graphql": "graphql"
+				}
+			}
+		]
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/graphql/graphiql",
+		"directory": "packages/vscode-graphql-syntax"
+	},
+	"devDependencies": {
+		"vscode-oniguruma": "^1.7.0",
+		"vscode-textmate": "^9.0.0",
+		"ovsx": "^0.3.0",
+		"@vscode/vsce": "^2.22.1-2"
+	},
+	"homepage": "https://github.com/graphql/graphiql/blob/main/packages/vscode-graphql-syntax/README.md",
+	"scripts": {
+		"vsce:package": "vsce package --yarn",
+		"vsce:prepublish": "npm run vsce:package",
+		"vsce:publish": "vsce publish --yarn",
+		"open-vsx:publish": "ovsx publish --yarn -i . --pat $OVSX_PAT",
+		"release": "npm run vsce:publish && npm run open-vsx:publish",
+		"test": "vitest run"
+	},
+	"__metadata": {
+		"id": "e1ab76b1-9acd-4ffa-baf7-1d9eaf7cf3d2",
+		"publisherId": "9d328ac4-bbff-4fd6-95dd-57cb0830ba22",
+		"publisherDisplayName": "GraphQL",
+		"targetPlatform": "undefined",
+		"isApplicationScoped": false,
+		"isPreReleaseVersion": false,
+		"hasPreReleaseVersion": false,
+		"installedTimestamp": 1731603395291,
+		"pinned": false,
+		"preRelease": false,
+		"source": "gallery"
+	}
+}

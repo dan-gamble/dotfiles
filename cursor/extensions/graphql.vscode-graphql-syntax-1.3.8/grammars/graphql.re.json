@@ -1,0 +1,34 @@
+{
+  "scopeName": "inline.graphql.re",
+  "injectionSelector": "L:(meta.embedded.block.reason | meta.embedded.block.ocaml | source.ocaml | source.reason -string -comment)",
+  "patterns": [
+    {
+      "contentName": "meta.embedded.block.graphql",
+      "begin": "({)(gql)(\\|)",
+      "end": "(\\|)(\\2)(})",
+      "patterns": [
+        {
+          "include": "source.graphql"
+        }
+      ]
+    },
+    {
+      "contentName": "meta.embedded.block.graphql",
+      "begin": "(\\[%graphql)s*$",
+      "end": "(?<=])",
+      "patterns": [
+        {
+          "begin": "^\\s*({\\|)$",
+          "end": "^\\s*(\\|})",
+          "patterns": [{ "include": "source.graphql" }]
+        }
+      ]
+    },
+    {
+      "contentName": "meta.embedded.block.graphql",
+      "begin": "(\\[%graphql {\\|)",
+      "end": "(\\|}( )?])",
+      "patterns": [{ "include": "source.graphql" }]
+    }
+  ]
+}

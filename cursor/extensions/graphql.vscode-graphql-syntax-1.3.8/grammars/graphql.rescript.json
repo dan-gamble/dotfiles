@@ -1,0 +1,24 @@
+{
+  "scopeName": "inline.graphql.res",
+  "injectionSelector": "L:(meta.embedded.block.rescript | source.rescript -string -comment)",
+  "patterns": [
+    {
+      "contentName": "meta.embedded.block.graphql",
+      "begin": "(%graphql\\()\\s*$",
+      "end": "(?<=\\))",
+      "patterns": [
+        {
+          "begin": "^\\s*(`)$",
+          "end": "^\\s*(`)",
+          "patterns": [{ "include": "source.graphql" }]
+        }
+      ]
+    },
+    {
+      "contentName": "meta.embedded.block.graphql",
+      "begin": "(%graphql\\(`)",
+      "end": "(\\`( )?\\))",
+      "patterns": [{ "include": "source.graphql" }]
+    }
+  ]
+}
