@@ -1,0 +1,48 @@
+pane_frames false
+default_layout "compact"
+
+themes {
+  tokyo-night {
+    fg 169 177 214
+      bg 26 27 38
+      black 56 62 90
+      red 249 51 87
+      green 158 206 106
+      yellow 224 175 104
+      blue 122 162 247
+      magenta 187 154 247
+      cyan 42 195 222
+      white 192 202 245
+      orange 255 158 100
+  }
+
+  gruvbox {
+    fg "#d5c4a1"
+      bg "#282828"
+      black "#3c3836"
+      red "#cc241d"
+      green "#98971a"
+      yellow "#d79921"
+      blue "#3c8588"
+      magenta "#b16286"
+      cyan "#689d6a"
+      white "#fbf1c7"
+      orange "#d65d0e"
+  }
+
+  catppuccin-mocha {
+    bg "#585b70" // Surface2
+      fg "#cdd6f4"
+      red "#f38ba8"
+      green "#a6e3a1"
+      blue "#89b4fa"
+      yellow "#f9e2af"
+      magenta "#f5c2e7" // Pink
+      orange "#fab387" // Peach
+      cyan "#89dceb" // Sky
+      black "#181825" // Mantle
+      white "#cdd6f4"
+  }
+}
+
+theme "catppuccin-mocha"
