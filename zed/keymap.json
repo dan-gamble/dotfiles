@@ -5,13 +5,16 @@
 			"alt-up": "editor::SelectLargerSyntaxNode",
 			"alt-down": "editor::SelectSmallerSyntaxNode",
 			"ctrl-cmd-up": "editor::MoveLineUp",
-			"ctrl-cmd-down": "editor::MoveLineDown"
+			"ctrl-cmd-down": "editor::MoveLineDown",
+			"cmd-shift-1": "pane::RevealInProjectPanel",
+			"cmd+w": "pane::CloseCleanItems"
 		}
 	},
 	{
 		"context": "Workspace",
 		"bindings": {
-			"cmd-shift-e": "project_panel::RevealInFileManager"
+			"shift-cmd-1": "project_panel::RevealInFileManager",
+			"cmd-s": "workspace::SaveAll"
 		}
 	}
 ]

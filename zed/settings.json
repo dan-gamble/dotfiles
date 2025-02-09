@@ -2,6 +2,7 @@
 	"calls": {
 		"mute_on_join": true
 	},
+	"soft_wrap": "editor_width",
 	"expand_excerpt_lines": 10,
 	"extend_comment_on_newline": false,
 	"performance": {
@@ -16,7 +17,7 @@
 		"version": "2"
 	},
 	"auto_update": true,
-	"cursor_blink": false,
+	"cursor_blink": true,
 	"relative_line_numbers": true,
 	"scrollbar": {
 		"show": "never"
@@ -41,7 +42,6 @@
 	"vim_mode": true,
 	"ui_font_size": 14,
 	"buffer_font_size": 14,
-	"theme": "Catppuccin Mocha",
 	"centered_layout": {
 		"left_padding": 0.1,
 		"right_padding": 0.1
@@ -61,6 +61,33 @@
 		"biome": {
 			"settings": {
 				"require_config_file": true
+			}
+		}
+	},
+	"language_overrides": {
+		"Ruby": {
+			"tab_size": 2,
+			"hard_tabs": false,
+			"format_on_save": "on",
+			"language_servers": [
+				"ruby-lsp",
+				"!solargraph"
+			],
+			"formatter": {
+				"external": {
+					"command": "bundle",
+					"arguments": [
+						"exec",
+						"rubocop",
+						"--server",
+						"--fail-level",
+						"error",
+						"--autocorrect",
+						"--stdin",
+						"corrected.rb",
+						"--stderr"
+					]
+				}
 			}
 		}
 	}
