@@ -1,0 +1,56 @@
+{
+  "rules" : [
+    {
+      "matchers" : [
+        {
+          "id" : "23329F12-DC28-4958-B632-93E736FA0349",
+          "pattern" : "shopify.com",
+          "kind" : "hostSuffix",
+          "fixture" : "shopify.com"
+        }
+      ],
+      "browser" : "company.thebrowser.Browser",
+      "id" : "66F98C05-92BD-4B60-815E-87F3B67D68BF",
+      "isEnabled" : true,
+      "sourceApps" : [
+
+      ],
+      "title" : "Shopify"
+    },
+    {
+      "id" : "E645AB1F-9355-43E0-9BC2-3CEA924D2283",
+      "matchers" : [
+        {
+          "fixture" : "myshopify.com",
+          "id" : "23329F12-DC28-4958-B632-93E736FA0349",
+          "kind" : "hostSuffix",
+          "pattern" : "myshopify.com"
+        }
+      ],
+      "isEnabled" : true,
+      "sourceApps" : [
+
+      ],
+      "title" : "Myshopify",
+      "browser" : "company.thebrowser.Browser"
+    },
+    {
+      "browser" : "company.thebrowser.Browser",
+      "title" : "localhost",
+      "id" : "1EAC214F-1B28-4D68-8A7C-CF09317E220B",
+      "isEnabled" : true,
+      "sourceApps" : [
+
+      ],
+      "matchers" : [
+        {
+          "pattern" : "localhost",
+          "kind" : "hostSuffix",
+          "id" : "E31B4904-532E-4211-B1DE-4F6024887A68",
+          "fixture" : "localhost"
+        }
+      ]
+    }
+  ],
+  "version" : "2.0.13"
+}
