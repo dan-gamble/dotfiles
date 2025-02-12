@@ -1,0 +1,16 @@
+{
+    "window.commandCenter": 1,
+    "editor.tabSize": 2,
+    "editor.fontSize": 13,
+    "editor.fontFamily": "Jetbrains Mono, Menlo, Monaco, 'Courier New', monospace",
+    "editor.renderWhitespace": "none",
+    "cursor.aipreview.enabled": true,
+    "cursor.cmdk.useThemedDiffBackground": true,
+    "cursor.composer.cmdPFilePicker2": true,
+    "cursor.cpp.enablePartialAccepts": true,
+    "cursor.general.enableShadowWorkspace": true,
+    "cursor.general.gitGraphIndexing": "enabled",
+    "cursor.terminal.usePreviewBox": true,
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.dragAndDrop": false
+}

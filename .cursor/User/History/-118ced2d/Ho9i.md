@@ -1,0 +1,96 @@
+# Product Group Items Management Design Document
+
+## Current Context
+- Two separate implementations for product group items:
+  1. Global Product Groups (standalone, reusable)
+  2. Made-to-Order Product Groups (configuration-bound, with dependencies)
+- Initial attempt at unification via ProductGroupItemsContext
+- Complex price matrix for dependent groups
+- Separate UI flows for different contexts
+
+### Pain Points
+1. Duplicate logic between routes
+2. Complex state management across contexts
+3. Difficult to maintain dependency relationships
+4. Price management complexity
+5. Separate UI flows for similar operations
+
+## Requirements
+
+### Functional Requirements
+1. Product Group Management
+   - Create/edit global product groups
+   - Create/edit configuration-bound groups
+   - Manage dependencies between groups
+   - Select products/variants from Shopify
+
+2. Price Management
+   - Set base prices for items
+   - Handle N×N price matrix for dependent items
+   - Support multiple currencies
+
+3. State Management
+   - Track selected products/variants
+   - Maintain dependency relationships
+   - Handle form state and validation
+
+### Non-Functional Requirements
+- Type safety across all operations
+- Consistent UI/UX regardless of context
+- Maintainable and testable code structure
+- Clear separation of concerns
+
+## Design Decisions
+
+### 1. Unified Product Group Items Context
+Will implement a strengthened ProductGroupItemsContext because:
+- Provides single source of truth for product group item state
+- Encapsulates all product selection and management logic
+- Reduces duplication between routes
+- Makes dependency relationships more maintainable
+
+Trade-offs:
+- More complex context implementation
+- Need to handle both standalone and configuration-bound cases
+- May need to refactor existing components to use new context
+
+### 2. Separate State from UI
+Will split product group management into distinct layers:
+- Core state management (Context)
+- UI components (Forms, Tables)
+- Database operations (Models)
+
+Because:
+- Clearer separation of concerns
+- Easier to test individual layers
+- More flexible UI implementations
+- Better type safety across layers
+
+Trade-offs:
+- More boilerplate initially
+- Need to carefully design interfaces between layers
+- May need to refactor existing UI components
+
+### 3. Price Matrix Management
+Will implement price management as a separate service because:
+- Isolates complex price calculation logic
+- Makes it easier to handle currency conversions
+- Simplifies handling of dependent group price relationships
+- Provides clear interface for UI components
+
+Trade-offs:
+- Additional abstraction layer
+- Need to carefully handle state synchronization
+- May impact performance with large price matrices
+
+### 4. Product Selection Flow
+Will standardize product selection through a unified picker service because:
+- Consistent selection experience
+- Reusable validation logic
+- Centralized product/variant tracking
+- Easier to maintain selected state
+
+Trade-offs:
+- Need to handle different selection contexts
+- May need to modify existing selection flows
+- Could impact performance with large product sets

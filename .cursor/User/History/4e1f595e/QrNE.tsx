@@ -1,0 +1,96 @@
+import {
+	getGlobalProductGroupByIdFromTheDatabase,
+	getGlobalProductGroupSelectedItemsFromShopify,
+} from "~/models/GlobalProductGroup.server";
+import type { Route } from "./+types/$id.selected-items";
+import { getGlobalProductGroupIdFromProductGroupId } from "~/models/ProductGroup.server";
+import { queryOptions } from "@tanstack/react-query";
+import type { Database } from "../../../../load-context/database";
+import type { ShopifyGraphQLClient } from "../../../../load-context/shopify";
+import { productGroupsSelectedItemsQueryKey } from "~/query-keys/product-groups-selected-items";
+import { data } from "react-router";
+
+const serverQuery = ({
+	id,
+	db,
+	graphql,
+}: {
+	id: string;
+	db: Database;
+	graphql: ShopifyGraphQLClient;
+}) =>
+	queryOptions({
+		queryKey: productGroupsSelectedItemsQueryKey(id),
+		queryFn: async () => {
+			const globalProductGroupId =
+				await getGlobalProductGroupIdFromProductGroupId({
+					db: db,
+					id,
+				});
+
+			if (!globalProductGroupId) {
+				return {
+					selectedItems: [],
+				};
+			}
+
+			const globalProductGroup = await getGlobalProductGroupByIdFromTheDatabase(
+				{
+					db: db,
+					id: globalProductGroupId,
+				},
+			);
+
+			if (!globalProductGroup) {
+				return {
+					selectedItems: [],
+				};
+			}
+
+			const selectedItems = await getGlobalProductGroupSelectedItemsFromShopify(
+				{
+					data: globalProductGroup,
+					graphql,
+				},
+			);
+
+			return {
+				selectedItems,
+			};
+		},
+	});
+
+export async function loader({ context, params, request }: Route.LoaderArgs) {
+	const { admin } = await context.shopify.authenticate.admin(request);
+
+	const globalProductGroupId = await getGlobalProductGroupIdFromProductGroupId({
+		db: context.db,
+		id: params.id,
+	});
+
+	if (!globalProductGroupId) {
+		return {
+			selectedItems: [],
+		};
+	}
+
+	const globalProductGroup = await getGlobalProductGroupByIdFromTheDatabase({
+		db: context.db,
+		id: globalProductGroupId,
+	});
+
+	if (!globalProductGroup) {
+		return {
+			selectedItems: [],
+		};
+	}
+
+	const selectedItems = await getGlobalProductGroupSelectedItemsFromShopify({
+		data: globalProductGroup,
+		graphql: admin.graphql,
+	});
+
+	return {
+		selectedItems,
+	};
+}

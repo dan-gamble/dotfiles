@@ -1,0 +1,7 @@
+{
+    "window.commandCenter": 1,
+    "editor.tabSize": 2,
+    "editor.fontSize": 13,
+    "editor.fontFamily": "Jetbrains Mono, Menlo, Monaco, 'Courier New', monospace",
+    "editor.renderWhitespace": "none"
+}

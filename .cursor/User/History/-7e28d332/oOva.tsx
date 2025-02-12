@@ -1,0 +1,84 @@
+import { randomUUID } from "node:crypto";
+import { Form } from "~/components/Form";
+import { LocalizedPage } from "~/components/LocalizedPage";
+import { MadeToOrderProvider } from "~/context/MadeToOrderContext";
+import { getGlobalProductGroups } from "~/models/GlobalProductGroup.server";
+import { createEmptyPrice } from "~/models/Price.server";
+import { MadeToOrderForm } from "~/routes/app/made-to-order/components/MadeToOrderForm";
+import { CurrencyCode } from "~/types/admin.types";
+import {
+	type MTOConfigurationData,
+	MTOConfigurationValidator,
+} from "~/validators/MTOConfigurationValidator";
+import { GlobalProductGroupsSortKey } from "../product-groups/utils";
+import type { Route } from "./+types/$id";
+import { shops } from "~/database/schema/shops";
+import { eq } from "drizzle-orm";
+
+export async function loader({ context, params, request }: Route.LoaderArgs) {
+	const { session } = await context.shopify.authenticate.admin(request);
+
+	const [shop] = await context.db
+		.select()
+		.from(shops)
+		.where(eq(shops.shopDomain, session.shop));
+
+	const globalProductGroups = await getGlobalProductGroups({
+		db: context.db,
+		sortKey: GlobalProductGroupsSortKey.TITLE,
+		reverse: false,
+	});
+
+	if (params.id === "new") {
+		const id = randomUUID();
+
+		return {
+			configuration: {
+				id,
+				title: "",
+				sku: "",
+				productId: "gid://shopify/Product/1",
+				prices: {
+					[CurrencyCode.Gbp]: [
+						createEmptyPrice(CurrencyCode.Gbp, "Configuration", id),
+					],
+				},
+				shopId: shop.id,
+				productGroups: [],
+				configurationProductGroups: [],
+			} satisfies MTOConfigurationData,
+			globalProductGroups,
+		};
+	}
+
+	return {
+		configuration: null,
+		globalProductGroups,
+	};
+}
+
+export default function MadeToOrderShow({ loaderData }: Route.ComponentProps) {
+	return (
+		<LocalizedPage
+			title="Made to order"
+			backAction={{
+				url: "/app/made-to-order",
+			}}
+		>
+			<MadeToOrderProvider
+				initialState={{
+					activeProductGroupId: undefined,
+					globalProductGroups: loaderData.globalProductGroups,
+				}}
+			>
+				<Form
+					validator={MTOConfigurationValidator}
+					defaultValues={loaderData.configuration}
+					debug
+				>
+					<MadeToOrderForm />
+				</Form>
+			</MadeToOrderProvider>
+		</LocalizedPage>
+	);
+}

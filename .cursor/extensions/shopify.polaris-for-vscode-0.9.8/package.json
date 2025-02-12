@@ -1,0 +1,66 @@
+{
+	"name": "polaris-for-vscode",
+	"displayName": "Polaris for VS Code",
+	"publisher": "Shopify",
+	"license": "SEE LICENSE IN LICENSE.md",
+	"description": "Polaris Design System VS Code extension",
+	"icon": "docs/polaris-icon.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Shopify/polaris.git"
+	},
+	"homepage": "https://github.com/Shopify/polaris/blob/main/polaris-for-vscode/README.md",
+	"bugs": {
+		"url": "https://github.com/Shopify/polaris/issues"
+	},
+	"version": "0.9.8",
+	"private": true,
+	"keywords": [
+		"polaris",
+		"shopify"
+	],
+	"engines": {
+		"vscode": "^1.64.0",
+		"node": "^16.17.0 || >=18.12.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onLanguage:css",
+		"onLanguage:scss"
+	],
+	"main": "./dist/client.js",
+	"scripts": {
+		"build": "rollup -c",
+		"dev": "rollup -c -w",
+		"lint": "TIMING=1 eslint --cache .",
+		"clean": "rm -rf .turbo node_modules dist *.tsbuildinfo"
+	},
+	"dependencies": {
+		"@shopify/polaris-tokens": "^8.10.0",
+		"vscode-languageclient": "^9.0.1",
+		"vscode-languageserver": "^9.0.1",
+		"vscode-languageserver-textdocument": "^1.0.11"
+	},
+	"devDependencies": {
+		"@types/node": "16.x",
+		"@types/vscode": "^1.64.0",
+		"globby": "^11.1.0",
+		"vsce": "^2.15.0"
+	},
+	"__metadata": {
+		"id": "066efcde-d9fd-48de-b385-407d28d09348",
+		"publisherId": "1166cb6d-7867-45ca-9a40-f535976a40be",
+		"publisherDisplayName": "Shopify",
+		"targetPlatform": "undefined",
+		"isApplicationScoped": false,
+		"isPreReleaseVersion": false,
+		"hasPreReleaseVersion": false,
+		"installedTimestamp": 1738792859167,
+		"pinned": false,
+		"preRelease": false,
+		"source": "gallery",
+		"size": 1291003
+	}
+}

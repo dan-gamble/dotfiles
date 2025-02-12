@@ -1,0 +1,80 @@
+import {
+	BlockStack,
+	Button,
+	InlineGrid,
+	InlineStack,
+	Card as PolarisCard,
+	Text,
+} from "@shopify/polaris";
+import type {
+	DisableableAction,
+	LoadableAction,
+	PlainAction,
+} from "@shopify/polaris/build/ts/src/types";
+import { type PropsWithChildren, useEffect, useMemo } from "react";
+import * as React from "react";
+
+export type CardProps = {
+		title?: string;
+		headerAction?: (PlainAction & { content: string }) | React.ReactNode;
+		footerAction?: DisableableAction & LoadableAction;
+	};
+
+export function Card(props: PropsWithChildren<CardProps>) {
+	const shouldRenderHeader = props.title || props.headerAction;
+
+	const renderHeaderAction = useMemo(() => {
+		const headerAction = props?.headerAction;
+
+		if (!headerAction) return null;
+
+		if (React.isValidElement(headerAction)) {
+			return headerAction;
+		}
+
+		return (
+			<Button variant="plain" {...headerAction} onClick={headerAction.onAction}>
+				{headerAction.content}
+			</Button>
+		);
+	}, [])
+
+	return (
+		<PolarisCard>
+			<BlockStack gap="300">
+				{shouldRenderHeader && (
+					<InlineGrid columns="1fr auto" gap="200">
+						{props.title && (
+							<Text as="h2" variant="headingSm">
+								{props.title}
+							</Text>
+						)}
+
+						{props.headerAction && (
+							<Button
+								variant="plain"
+								{...props.headerAction}
+								onClick={props.headerAction.onAction}
+							>
+								{props.headerAction.content}
+							</Button>
+						)}
+					</InlineGrid>
+				)}
+
+				{props.children}
+
+				{props.footerAction && (
+					<InlineStack align="end">
+						<Button
+							{...props.footerAction}
+							onClick={props?.footerAction?.onAction}
+						>
+							{props.footerAction.content}
+						</Button>
+					</InlineStack>
+				)}
+			</BlockStack>
+		</PolarisCard>
+	);
+}
