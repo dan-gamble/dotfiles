@@ -1,0 +1,22 @@
+.DS_Store
+
+# Cursor editor state, never config
+.cursor/User/History/
+.cursor/User/workspaceStorage/
+.cursor/User/globalStorage/
+.cursor/extensions/
+.cursor/shouldUpdate
+.cursor/projects/
+.cursor/plugins/
+.cursor/skills/
+.cursor/skills-cursor/
+.cursor/ai-tracking/
+.cursor/sandbox-policies/
+.cursor/agents/
+
+# Zed local state
+zed/.tmp*
+zed/conversations/
+zed/embeddings/
+zed/prompts/
+zed/settings_backup.json
