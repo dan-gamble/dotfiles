@@ -1,33 +1,53 @@
 {
+	"active_pane_modifiers": {
+		"border_size": 0,
+		"inactive_opacity": 0.5
+	},
+	"edit_predictions": {
+		"provider": "zed",
+  "mode": "eager"
+	},
+	"agent": {
+		"model_parameters": [],
+		"default_model": {
+			"provider": "zed.dev",
+			"model": "claude-sonnet-4"
+		}
+	},
+	"use_on_type_format": false,
+	"icon_theme": "Catppuccin Mocha",
+	"theme": {
+		"mode": "system",
+		"light": "Catppuccin Latte",
+		"dark": "Catppuccin Mocha"
+	},
+	"base_keymap": "JetBrains",
+	"max_tabs": 1,
 	"calls": {
 		"mute_on_join": true
+	},
+	"terminal": {
+		"dock": "right"
 	},
 	"soft_wrap": "editor_width",
 	"expand_excerpt_lines": 10,
 	"extend_comment_on_newline": false,
-	"performance": {
-		"show_in_status_bar": true
-	},
 	"preferred_line_length": 120,
-	"assistant": {
-		"default_model": {
-			"provider": "zed.dev",
-			"model": "claude-3-5-sonnet-latest"
-		},
-		"version": "2"
-	},
 	"auto_update": true,
 	"cursor_blink": true,
-	"relative_line_numbers": true,
+	"relative_line_numbers": "enabled",
 	"scrollbar": {
 		"show": "never"
 	},
+	"show_edit_predictions": false,
+	"show_completions_on_input": true,
 	"tab_bar": {
 		"show": false,
 		"show_nav_history_buttons": false
 	},
 	"toolbar": {
-		"breadcrumbs": true,
+		"code_actions": true,
+		"breadcrumbs": false,
 		"quick_actions": false
 	},
 	"git": {
@@ -40,54 +60,134 @@
 	},
 	"tab_size": 2,
 	"vim_mode": true,
-	"ui_font_size": 14,
-	"buffer_font_size": 14,
+	"ui_font_family": "JetBrains Mono",
+	"buffer_font_family": "JetBrains Mono",
+	"ui_font_size": 16,
+	"buffer_font_size": 16,
 	"centered_layout": {
 		"left_padding": 0.1,
 		"right_padding": 0.1
 	},
-	"show_inline_completions": false,
 	"format_on_save": "on",
-	"code_actions_on_format": {
-		"source.fixAll.biome": true,
-		"source.organizeImports.biome": true
-	},
-	"formatter": {
-		"language_server": {
-			"name": "biome"
+	"languages": {
+		"HTML/ERB": {
+			"formatter": {
+				"external": {
+					"command": "erb-formatter",
+					"arguments": ["--stdin-filename", "{buffer_path}"]
+				}
+			}
+		},
+		"Ruby": {
+			"language_servers": ["ruby-lsp", "rubocop", "!solargraph"]
 		}
 	},
 	"lsp": {
-		"biome": {
-			"settings": {
-				"require_config_file": true
+		"ruby-lsp": {
+			"initialization_options": {
+				"enabledFeatures": {
+					"diagnostics": false
+				},
+				"formatter": "standard",
+				"linters": ["standard"]
 			}
-		}
-	},
-	"language_overrides": {
-		"Ruby": {
-			"tab_size": 2,
-			"hard_tabs": false,
-			"format_on_save": "on",
-			"language_servers": [
-				"ruby-lsp",
-				"!solargraph"
-			],
-			"formatter": {
-				"external": {
-					"command": "bundle",
-					"arguments": [
-						"exec",
-						"rubocop",
-						"--server",
-						"--fail-level",
-						"error",
-						"--autocorrect",
-						"--stdin",
-						"corrected.rb",
-						"--stderr"
-					]
+		},
+		"rubocop": {
+			"initialization_options": {
+				"safeAutocorrect": false
+			}
+		},
+		"rust-analyzer": {
+			"initialization_options": {
+				"check": { "command": "clippy" },
+				"checkOnSave": { "command": "clippy" }
+			},
+			"procMacro": {
+				"ignored": [
+					// optional:
+					"component",
+					"server"
+				]
+			}
+		},
+		"language_overrides": {
+			"Rust": {
+				"tab_size": 4,
+				"hard_tabs": false,
+				"format_on_save": "on",
+				"formatter": "language_server"
+			},
+			"Ruby": {
+				"tab_size": 2,
+				"hard_tabs": false,
+				"format_on_save": "on",
+				"language_servers": ["ruby-lsp", "!solargraph"],
+				"formatter": {
+					"external": {
+						"command": "bundle",
+						"arguments": [
+							"exec",
+							"rubocop",
+							"--server",
+							"--fail-level",
+							"error",
+							"--autocorrect",
+							"--stdin",
+							"corrected.rb",
+							"--stderr"
+						]
+					}
 				}
+			},
+			"TypeScript": {
+				"formatter": {
+					"external": {
+						"command": "./node_modules/@biomejs/biome/bin/biome",
+						"arguments": ["check", "--write", "--unsafe", "--stdin-file-path", "{buffer_path}"]
+					}
+				}
+			},
+			"TSX": {
+				"formatter": {
+					"external": {
+						"command": "./node_modules/@biomejs/biome/bin/biome",
+						"arguments": ["check", "--write", "--unsafe", "--stdin-file-path", "{buffer_path}"]
+					}
+				}
+			},
+			"JavaScript": {
+				"formatter": {
+					"external": {
+						"command": "./node_modules/@biomejs/biome/bin/biome",
+						"arguments": ["check", "--write", "--unsafe", "--stdin-file-path", "{buffer_path}"]
+					}
+				}
+			},
+			"JSX": {
+				"formatter": {
+					"external": {
+						"command": "./node_modules/@biomejs/biome/bin/biome",
+						"arguments": ["check", "--write", "--unsafe", "--stdin-file-path", "{buffer_path}"]
+					}
+				}
+			},
+			"JSON": {
+				"formatter": {
+					"external": {
+						"command": "./node_modules/@biomejs/biome/bin/biome",
+						"arguments": ["check", "--write", "--unsafe", "--stdin-file-path", "{buffer_path}"]
+					}
+				}
+			}
+		},
+		"context_servers": {
+			"linear": {
+				"command": {
+					"path": "npx",
+					"args": ["-y", "mcp-remote", "https://mcp.linear.app/sse"],
+					"env": {}
+				},
+				"settings": {}
 			}
 		}
 	}

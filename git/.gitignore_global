@@ -53,7 +53,6 @@ crashlytics-build.properties
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
 .Python
-[Bb]in
 [Ii]nclude
 pyvenv.cfg
 pip-selfcheck.json
@@ -277,7 +276,6 @@ jspm_packages
 
 # Webpack
 webpack-stats.json
-bundles/
 
 .venv
 .vscode
@@ -289,3 +287,6 @@ typings.json
 .env
 .zshenv
 /.next
+.playwright-mcp
+
+**/.claude/settings.local.json
