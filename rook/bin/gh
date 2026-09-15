@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Agent-identity gh shim (cross-platform port of the mbp ~/.local/bin/gh shim).
+# When gh is invoked from a coding-agent context (pi sets AI_AGENT/PI_CODING_AGENT,
+# Claude Code sets CLAUDECODE, Cursor sets CURSOR_AGENT), API calls authenticate as
+# the Rook machine user via GH_TOKEN, so PRs, comments, and reviews are attributed
+# to the bot. Human shells carry none of these markers and use Dan's normal gh auth.
+#
+# Configured by ~/.config/rook/identity.env. If that file is missing, this is a
+# transparent passthrough. Execs the next `gh` on PATH after this directory.
+
+ROOK_ENV="$HOME/.config/rook/identity.env"
+
+if [ -f "$ROOK_ENV" ] && [ -z "${GH_TOKEN:-}" ] && [ -z "${GITHUB_TOKEN:-}" ] &&
+   { [ -n "${AI_AGENT:-}" ] || [ -n "${CLAUDECODE:-}" ] || [ "${PI_CODING_AGENT:-}" = "true" ] || [ -n "${CURSOR_AGENT:-}" ]; }; then
+  # shellcheck source=/dev/null
+  . "$ROOK_ENV"
+  if [ -n "${ROOK_GH_TOKEN:-}" ]; then
+    export GH_TOKEN="$ROOK_GH_TOKEN"
+  fi
+fi
+
+self_dir="$(cd "$(dirname "$0")" && pwd -P)"
+IFS=: read -ra _dirs <<<"$PATH"
+for d in "${_dirs[@]}"; do
+  [ -n "$d" ] && [ -x "$d/gh" ] || continue
+  [ "$(cd "$d" 2>/dev/null && pwd -P)" = "$self_dir" ] && continue
+  exec "$d/gh" "$@"
+done
+echo "rook gh shim: no real gh found on PATH" >&2
+exit 127

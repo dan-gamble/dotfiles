@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Agent-identity git shim (cross-platform port of the mbp ~/.local/bin/git shim).
+# When git is invoked from a coding-agent context (pi sets AI_AGENT/PI_CODING_AGENT,
+# Claude Code sets CLAUDECODE, Cursor sets CURSOR_AGENT), commits are authored and
+# pushes are authenticated as the Rook machine user. Human shells carry none of
+# these markers and pass straight through untouched.
+#
+# Configured by ~/.config/rook/identity.env (rook-identity-wizard.sh on the mbp,
+# copied by hand elsewhere). If that file is missing, this is a transparent passthrough.
+#
+# Execs the next `git` on PATH after this directory, so it works wherever the
+# real binary lives (/usr/bin on Arch, /opt/homebrew/bin on the Mac).
+
+ROOK_ENV="$HOME/.config/rook/identity.env"
+
+if [ -f "$ROOK_ENV" ] && [ -z "${GIT_AUTHOR_NAME:-}" ] &&
+   { [ -n "${AI_AGENT:-}" ] || [ -n "${CLAUDECODE:-}" ] || [ "${PI_CODING_AGENT:-}" = "true" ] || [ -n "${CURSOR_AGENT:-}" ]; }; then
+  # shellcheck source=/dev/null
+  . "$ROOK_ENV"
+
+  if [ -n "${ROOK_NAME:-}" ] && [ -n "${ROOK_EMAIL:-}" ]; then
+    suffix=""
+    if [ "${AI_AGENT:-}" = "pi" ] || [ "${PI_CODING_AGENT:-}" = "true" ]; then
+      suffix=" (pi)"
+    elif [ -n "${CLAUDECODE:-}" ]; then
+      suffix=" (claude)"
+    elif [ -n "${CURSOR_AGENT:-}" ]; then
+      suffix=" (cursor)"
+    fi
+    export GIT_AUTHOR_NAME="${ROOK_NAME}${suffix}"
+    export GIT_AUTHOR_EMAIL="$ROOK_EMAIL"
+    export GIT_COMMITTER_NAME="${ROOK_NAME}${suffix}"
+    export GIT_COMMITTER_EMAIL="$ROOK_EMAIL"
+  fi
+
+  # Route SSH pushes to the bot's key. IdentitiesOnly stops ssh-agent offering
+  # Dan's keys first (which would authenticate the push as Dan).
+  if [ -n "${ROOK_SSH_KEY:-}" ] && [ -f "${ROOK_SSH_KEY:-}" ] && [ -z "${GIT_SSH_COMMAND:-}" ]; then
+    export GIT_SSH_COMMAND="ssh -i $ROOK_SSH_KEY -o IdentitiesOnly=yes"
+  fi
+fi
+
+# Find the real git: first executable on PATH that isn't this shim.
+self_dir="$(cd "$(dirname "$0")" && pwd -P)"
+IFS=: read -ra _dirs <<<"$PATH"
+for d in "${_dirs[@]}"; do
+  [ -n "$d" ] && [ -x "$d/git" ] || continue
+  [ "$(cd "$d" 2>/dev/null && pwd -P)" = "$self_dir" ] && continue
+  exec "$d/git" "$@"
+done
+echo "rook git shim: no real git found on PATH" >&2
+exit 127

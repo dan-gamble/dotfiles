@@ -27,7 +27,7 @@
 [apply]
   whitespace = fix
 [core]
-  excludesfile = /Users/dangamble/.gitignore_global
+  excludesfile = ~/.gitignore_global
   editor = vim
   whitespace = space-before-tab,-indent-with-non-tab,trailing-space
   autocrlf = input
@@ -35,7 +35,7 @@
   autocorrect = 0
 [user]
   name = Dan Gamble
-  email = dan@dangamble.co.uk
+  email = dan.gamble@hey.com
 [rebase]
   autosquash = true
   autostash = true
@@ -66,3 +66,6 @@
 	process = git-lfs filter-process
 [color]
 	ui = true
+
+[include]
+	path = ~/.gitconfig.local
