@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Agent-identity gh shim (cross-platform port of the mbp ~/.local/bin/gh shim).
 # When gh is invoked from a coding-agent context (pi sets AI_AGENT/PI_CODING_AGENT,
-# Claude Code sets CLAUDECODE, Cursor sets CURSOR_AGENT), API calls authenticate as
+# Claude Code sets CLAUDECODE, Cursor sets CURSOR_AGENT, jcode sets JCODE_SCRATCH_DIR
+# and JCODE_ACTIVE_PROVIDER on every tool subprocess), API calls authenticate as
 # the Rook machine user via GH_TOKEN, so PRs, comments, and reviews are attributed
 # to the bot. Human shells carry none of these markers and use Dan's normal gh auth.
 #
@@ -11,7 +12,8 @@
 ROOK_ENV="$HOME/.config/rook/identity.env"
 
 if [ -f "$ROOK_ENV" ] && [ -z "${GH_TOKEN:-}" ] && [ -z "${GITHUB_TOKEN:-}" ] &&
-   { [ -n "${AI_AGENT:-}" ] || [ -n "${CLAUDECODE:-}" ] || [ "${PI_CODING_AGENT:-}" = "true" ] || [ -n "${CURSOR_AGENT:-}" ]; }; then
+   { [ -n "${AI_AGENT:-}" ] || [ -n "${CLAUDECODE:-}" ] || [ "${PI_CODING_AGENT:-}" = "true" ] ||
+     [ -n "${CURSOR_AGENT:-}" ] || [ -n "${JCODE_SCRATCH_DIR:-}" ] || [ -n "${JCODE_ACTIVE_PROVIDER:-}" ]; }; then
   # shellcheck source=/dev/null
   . "$ROOK_ENV"
   if [ -n "${ROOK_GH_TOKEN:-}" ]; then
@@ -19,11 +21,12 @@ if [ -f "$ROOK_ENV" ] && [ -z "${GH_TOKEN:-}" ] && [ -z "${GITHUB_TOKEN:-}" ] &&
   fi
 fi
 
-self_dir="$(cd "$(dirname "$0")" && pwd -P)"
+self="$(readlink -f "$0" 2>/dev/null || realpath "$0" 2>/dev/null || echo "$0")"
 IFS=: read -ra _dirs <<<"$PATH"
 for d in "${_dirs[@]}"; do
   [ -n "$d" ] && [ -x "$d/gh" ] || continue
-  [ "$(cd "$d" 2>/dev/null && pwd -P)" = "$self_dir" ] && continue
+  cand="$(readlink -f "$d/gh" 2>/dev/null || realpath "$d/gh" 2>/dev/null || echo "$d/gh")"
+  [ "$cand" = "$self" ] && continue
   exec "$d/gh" "$@"
 done
 echo "rook gh shim: no real gh found on PATH" >&2

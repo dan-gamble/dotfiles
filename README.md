@@ -25,7 +25,7 @@ Configs for two machines: a Mac and an Omarchy (Arch + Hyprland) PC. Everything 
 
 ## Rook agent identity
 
-`rook/bin/git` and `rook/bin/gh` are shims that swap in the Rook machine user (`rook-bao`) whenever git or gh runs inside a coding agent (Claude Code, pi, Cursor). Human shells pass straight through. They read `~/.config/rook/identity.env` (name, noreply email, SSH key path, gh token) which is **not** in this repo; copy it and `~/.ssh/rook_bot` from a machine that has them. The shims exec the next `git`/`gh` on `PATH`, so the same files work on the Mac and on Arch. On the Mac the original shims still live in `~/.local/bin`.
+`rook/bin/git` and `rook/bin/gh` are shims that swap in the Rook machine user (`rook-bao`) whenever git or gh runs inside a coding agent (Claude Code, pi, Cursor, jcode — which sets no agent flag of its own, so the shims key off `JCODE_SCRATCH_DIR`/`JCODE_ACTIVE_PROVIDER`, present on every tool subprocess it spawns). Human shells pass straight through. They read `~/.config/rook/identity.env` (name, noreply email, SSH key path, gh token) which is **not** in this repo; copy it and `~/.ssh/rook_bot` from a machine that has them. The shims exec the next `git`/`gh` on `PATH`, so the same files work on the Mac and on Arch. On the Mac the original shims still live in `~/.local/bin`.
 
 ## Mac only
 

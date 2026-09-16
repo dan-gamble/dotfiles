@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Agent-identity git shim (cross-platform port of the mbp ~/.local/bin/git shim).
 # When git is invoked from a coding-agent context (pi sets AI_AGENT/PI_CODING_AGENT,
-# Claude Code sets CLAUDECODE, Cursor sets CURSOR_AGENT), commits are authored and
+# Claude Code sets CLAUDECODE, Cursor sets CURSOR_AGENT, jcode sets JCODE_SCRATCH_DIR
+# and JCODE_ACTIVE_PROVIDER on every tool subprocess), commits are authored and
 # pushes are authenticated as the Rook machine user. Human shells carry none of
 # these markers and pass straight through untouched.
 #
@@ -14,7 +15,8 @@
 ROOK_ENV="$HOME/.config/rook/identity.env"
 
 if [ -f "$ROOK_ENV" ] && [ -z "${GIT_AUTHOR_NAME:-}" ] &&
-   { [ -n "${AI_AGENT:-}" ] || [ -n "${CLAUDECODE:-}" ] || [ "${PI_CODING_AGENT:-}" = "true" ] || [ -n "${CURSOR_AGENT:-}" ]; }; then
+   { [ -n "${AI_AGENT:-}" ] || [ -n "${CLAUDECODE:-}" ] || [ "${PI_CODING_AGENT:-}" = "true" ] ||
+     [ -n "${CURSOR_AGENT:-}" ] || [ -n "${JCODE_SCRATCH_DIR:-}" ] || [ -n "${JCODE_ACTIVE_PROVIDER:-}" ]; }; then
   # shellcheck source=/dev/null
   . "$ROOK_ENV"
 
@@ -26,6 +28,8 @@ if [ -f "$ROOK_ENV" ] && [ -z "${GIT_AUTHOR_NAME:-}" ] &&
       suffix=" (claude)"
     elif [ -n "${CURSOR_AGENT:-}" ]; then
       suffix=" (cursor)"
+    elif [ -n "${JCODE_SCRATCH_DIR:-}" ] || [ -n "${JCODE_ACTIVE_PROVIDER:-}" ]; then
+      suffix=" (jcode)"
     fi
     export GIT_AUTHOR_NAME="${ROOK_NAME}${suffix}"
     export GIT_AUTHOR_EMAIL="$ROOK_EMAIL"
@@ -40,12 +44,14 @@ if [ -f "$ROOK_ENV" ] && [ -z "${GIT_AUTHOR_NAME:-}" ] &&
   fi
 fi
 
-# Find the real git: first executable on PATH that isn't this shim.
-self_dir="$(cd "$(dirname "$0")" && pwd -P)"
+# Find the real git: first executable on PATH that isn't this shim
+# (same file via symlink counts as this shim).
+self="$(readlink -f "$0" 2>/dev/null || realpath "$0" 2>/dev/null || echo "$0")"
 IFS=: read -ra _dirs <<<"$PATH"
 for d in "${_dirs[@]}"; do
   [ -n "$d" ] && [ -x "$d/git" ] || continue
-  [ "$(cd "$d" 2>/dev/null && pwd -P)" = "$self_dir" ] && continue
+  cand="$(readlink -f "$d/git" 2>/dev/null || realpath "$d/git" 2>/dev/null || echo "$d/git")"
+  [ "$cand" = "$self" ] && continue
   exec "$d/git" "$@"
 done
 echo "rook git shim: no real git found on PATH" >&2
