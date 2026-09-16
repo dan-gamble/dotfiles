@@ -1,0 +1,35 @@
+{
+  "mcpServers": {
+    "Browser Tools": {
+      "command": "npx",
+      "args": [
+        "@agentdeskai/browser-tools-mcp@1.1.0"
+      ]
+    },
+    "Linear": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.linear.app/sse"
+      ]
+    },
+    "shopify-dev-mcp": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@shopify/dev-mcp@latest"
+      ],
+      "env": {
+        "POLARIS_UNIFIED": "true"
+      }
+    },
+    "cloudflare-docs": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://docs.mcp.cloudflare.com/sse"
+      ]
+    }
+  }
+}

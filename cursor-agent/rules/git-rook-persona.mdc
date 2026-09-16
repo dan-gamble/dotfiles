@@ -1,0 +1,14 @@
+---
+description: Cursor git/gh go through the Rook identity shims; do not override author env
+alwaysApply: true
+---
+
+# Git identity in Cursor
+
+Shims early on `PATH` (`~/.local/bin` on the Mac, `~/.dotfiles/rook/bin` on the Omarchy PC) already switch to the Rook machine user when `CURSOR_AGENT` is set. Do not fight that.
+
+- Call `git` / `gh` as normal (PATH already prefers the shim dir).
+- Do **not** set `GIT_AUTHOR_*`, `GIT_COMMITTER_*`, or `--author`. A set `GIT_AUTHOR_NAME` makes the git shim a passthrough and commits as Dan.
+- Do **not** set `GH_TOKEN` / `GITHUB_TOKEN` for the same reason on `gh`.
+- Do **not** invoke `/opt/homebrew/bin/git`, `/usr/bin/git`, or `/opt/homebrew/bin/gh`.
+- Do **not** `git config user.name` / `user.email`.

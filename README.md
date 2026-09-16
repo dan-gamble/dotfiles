@@ -17,6 +17,8 @@ Configs for two machines: a Mac and an Omarchy (Arch + Hyprland) PC. Everything 
 | `rook/bin/` | prepended to `PATH` in `.bashrc` (not linked) |
 | `nvim/` | `~/.config/nvim` |
 | `starship/`, `starship.toml` | `~/.config/starship.toml` |
+| `cursor-agent/` | `~/.cursor/cli-config.json`, `~/.cursor/mcp.json`, `~/.cursor/rules/*.mdc` (run `cursor-agent/install.sh`) |
+| `agents/skills/` | `~/.cursor/skills/<name>`, `~/.claude/skills/<name>` (same script) |
 | `claude/` | `~/.claude/statusline.sh` (Claude Code status line; needs `jq`, and `statusLine.command` pointed at it in `~/.claude/settings.json`) |
 
 `.zshrc` expects these installed: zinit, zoxide, fzf, mise, atuin, starship.
@@ -26,6 +28,20 @@ Configs for two machines: a Mac and an Omarchy (Arch + Hyprland) PC. Everything 
 ## Rook agent identity
 
 `rook/bin/git` and `rook/bin/gh` are shims that swap in the Rook machine user (`rook-bao`) whenever git or gh runs inside a coding agent (Claude Code, pi, Cursor, jcode — which sets no agent flag of its own, so the shims key off `JCODE_SCRATCH_DIR`/`JCODE_ACTIVE_PROVIDER`, present on every tool subprocess it spawns). Human shells pass straight through. They read `~/.config/rook/identity.env` (name, noreply email, SSH key path, gh token) which is **not** in this repo; copy it and `~/.ssh/rook_bot` from a machine that has them. The shims exec the next `git`/`gh` on `PATH`, so the same files work on the Mac and on Arch. On the Mac the original shims still live in `~/.local/bin`.
+
+## Cursor agent config
+
+`cursor-agent/` holds the machine-independent half of `~/.cursor`: the CLI config (zen display mode, allowlist approvals, agent attribution), the MCP server list (Linear, Shopify dev, Cloudflare docs, browser tools), and the two always-apply rules — `git-rook-persona` (never override the git/gh identity shims) and `pstack-models` (per-role model picks). Vendored Cloudflare skills, plugins, project state and transcripts stay untracked; re-fetch those on each machine.
+
+`agents/skills/` holds skills written here rather than downloaded: `bao-theme` and `show-me`. `cursor-agent/install.sh` links them into both `~/.cursor/skills` and `~/.claude/skills`, so Cursor and Claude Code see one copy.
+
+Run after cloning on a new machine:
+
+```sh
+~/.dotfiles/cursor-agent/install.sh
+```
+
+`cursor/` and `.cursor/User/` are the *editor* (GUI) settings and stay Mac-only.
 
 ## Mac only
 
