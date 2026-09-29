@@ -2,7 +2,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # format = '$all$directory$character'
-add_newline = false
+add_newline = true
 # A minimal left prompt
 format = """$directory$character"""
 palette = "catppuccin_mocha"
