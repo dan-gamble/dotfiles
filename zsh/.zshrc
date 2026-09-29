@@ -189,6 +189,7 @@ add-zsh-hook precmd _fix_tty
 
 eval "$(atuin init zsh)"
 
-
 # Added by jcode installer
 export PATH="/Users/dangamble/.local/bin:$PATH"
+
+export CLAUDE_CODE_SUBAGENT_MODEL=opus
