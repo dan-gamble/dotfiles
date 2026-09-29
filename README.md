@@ -13,7 +13,7 @@ Configs for two machines: a Mac and an Omarchy (Arch + Hyprland) PC. Everything 
 | `yazi/` | `~/.config/yazi` |
 | `zellij/` | `~/.config/zellij/config.kdl` |
 | `tmux/` | `~/.config/tmux` |
-| `herdr/` | `~/.config/herdr/config.toml` (PC config; the Mac still has its own, see below) |
+| `herdr/` | `config.toml` to `~/.config/herdr/config.toml`, `herdr-scroll` to `~/.local/bin/herdr-scroll` |
 | `rook/bin/` | prepended to `PATH` in `.bashrc` (not linked) |
 | `nvim/` | `~/.config/nvim` |
 | `starship/`, `starship.toml` | `~/.config/starship.toml` |
@@ -49,6 +49,7 @@ Run after cloning on a new machine:
 - `.osx` — macOS defaults
 - `cursor/` — Cursor settings and keybindings
 - `iTerm/`, `sublime/` — app settings
+- `ghostty/config.mac` — linked to `~/Library/Application Support/com.mitchellh.ghostty/config`. Left Option is Alt for herdr's `alt+` binds; right Option still types `#` on the British layout
 - `dang.bttpreset` — BetterTouchTool
 - `Velja Rules.velja-rules` — Velja link routing
 
@@ -58,7 +59,7 @@ None of this gets linked on Omarchy. The Arch equivalent of the Brewfile is a pa
 
 - Omarchy manages its own Hyprland, waybar and theming config through its update mechanism. Don't link over those; keep any PC-only overrides out of this repo or in a dedicated dir that only the PC links.
 - Terminal: iTerm config here is Mac-only. Ghostty is the cross-platform choice if a shared terminal config gets added.
-- herdr: `herdr/config.toml` is the Omarchy config (tmux-mirror keymap on `ctrl+space`, `terminal` theme so it follows the Omarchy theme). The Mac runs a separate hand-tuned config with Mac-specific `[[keys.command]]` paths; converge them before linking it there.
+- herdr: one config for both machines (tmux-mirror keymap on `ctrl+space`, `terminal` theme so it follows the Omarchy theme). Ghostty on Omarchy is Omarchy-managed, so only the Mac's Ghostty config lives here.
 
 ## Setup
 

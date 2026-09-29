@@ -69,7 +69,12 @@ close_workspace = "prefix+shift+k"
 previous_workspace = ["prefix+shift+p", "alt+up"]
 next_workspace = ["prefix+shift+n", "alt+down"]
 
+# Agent panel rows. With agent_panel_sort = "priority", row 1 is always the agent
+# that most needs you (blocked, then done, newest first)
+focus_agent = "ctrl+alt+1..9"
+
 [ui]
+mouse_scroll_lines = 1
 accent = "blue"
 
 # Match mbp: gapped panes with an outer frame, and agent labels drawn in the borders
@@ -113,3 +118,25 @@ delivery = "system"
 [experimental]
 # Save recent pane screen history across full server restarts (as on mbp)
 pane_history = true
+
+# Keyboard scrolling for the focused pane (herdr has no scroll action; ~/.local/bin/herdr-scroll calls pane.scroll)
+[[keys.command]]
+key = "alt+shift+up"
+type = "shell"
+command = "~/.local/bin/herdr-scroll +3"
+
+[[keys.command]]
+key = "alt+shift+down"
+type = "shell"
+command = "~/.local/bin/herdr-scroll -3"
+
+[[keys.command]]
+key = "alt+shift+u"
+type = "shell"
+command = "~/.local/bin/herdr-scroll half-up"
+
+[[keys.command]]
+key = "alt+shift+d"
+type = "shell"
+command = "~/.local/bin/herdr-scroll half-down"
+
