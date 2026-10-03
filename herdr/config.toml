@@ -112,6 +112,13 @@ window_title = "{hostname}: {workspace}"
 agent_panel_sort = "priority"
 
 status_indicators = "dots"
+
+# Agent rows: the repo folder, then `<worktree> (<pet name>)`. Both come from the
+# agent-board Claude Code mod. `workspace` stays on line 1 so agents without the mod
+# still show where they are; drop it once every session runs the mod
+[ui.sidebar.agents]
+rows = [["state_icon", "$repo", "workspace"], ["agent"]]
+
 [ui.toast]
 delivery = "system"
 
