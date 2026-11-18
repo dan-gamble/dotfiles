@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+# herdr-worker: start a Claude Code worker in the `workers` herdr session, so Dan's own
+# sidebar (the `default` session) shows only the sessions he started.
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  herdr-worker --lead <handle> --repo <dir> [--branch <name> [--base <ref>]] [--brief <text> | --brief-file <file>] [-- <claude args>]
+  herdr-worker attach      Attach a terminal to the workers session, with desktop notifications off
+  herdr-worker ensure      Start the workers server if it isn't running
+
+Starts the workers herdr server when it isn't running (headless, in agents.slice), opens a
+workspace for <repo> there (a new git worktree on <branch> when given), starts Claude Code in
+it and submits the brief. The brief is read from stdin when neither --brief nor --brief-file
+is given. It must report to the lead: a "Reports to: <handle>" line is added when missing.
+
+Prints the worker's herdr name and pane, and the commands the lead uses to reach it:
+  herdr --session workers agent read <name> --source recent-unwrapped --lines 80
+  herdr --session workers agent prompt <name> "<text>" --wait
+
+HERDR_WORKER_SESSION names another session instead of workers (for tests).
+EOF
+}
+
+session=${HERDR_WORKER_SESSION:-workers}
+hw() { herdr --session "$session" "$@"; }
+
+is_running() {
+  herdr session list --json | jq -e --arg s "$session" '.sessions[] | select(.name == $s and .running)' >/dev/null
+}
+
+# The server runs as a transient user service in agents.slice (like the default one, see
+# ~/.local/bin/herdr), so it survives the shell that started it. A server with no client
+# attached raises no desktop notifications, so it needs no config of its own.
+ensure() {
+  is_running && return 0
+  systemd-run --user --quiet --collect --slice=agents.slice --unit="herdr-session-$session" \
+    --setenv=PATH="$PATH" --setenv=SHELL="${SHELL:-/bin/bash}" \
+    /usr/bin/herdr --session "$session" server
+  for _ in $(seq 50); do
+    hw workspace list >/dev/null 2>&1 && return 0
+    sleep 0.2
+  done
+  echo "herdr-worker: the $session server did not start (journalctl --user -u herdr-session-$session)" >&2
+  exit 1
+}
+
+# Notifications are raised by the attached client from its own config, so the attaching client
+# reads a copy of Dan's config with [ui.toast] delivery = "off", made fresh each time.
+attach() {
+  ensure
+  local dir=${XDG_STATE_HOME:-$HOME/.local/state}/herdr-worker
+  mkdir -p "$dir"
+  if grep -q '^\[ui\.toast\]' ~/.config/herdr/config.toml; then
+    sed '/^\[ui\.toast\]/,/^\[/ s/^delivery *=.*/delivery = "off"/' ~/.config/herdr/config.toml >"$dir/config.toml"
+  else
+    { cat ~/.config/herdr/config.toml; printf '\n[ui.toast]\ndelivery = "off"\n'; } >"$dir/config.toml"
+  fi
+  exec env -u HERDR_ENV -u HERDR_PANE_ID -u HERDR_TAB_ID -u HERDR_WORKSPACE_ID -u HERDR_SOCKET_PATH -u HERDR_SESSION \
+    HERDR_CONFIG_PATH="$dir/config.toml" herdr session attach "$session"
+}
+
+case ${1:-} in
+  -h|--help|'') usage; exit 0 ;;
+  attach) attach ;;
+  ensure) ensure; exit 0 ;;
+esac
+
+lead='' repo='' branch='' base='' brief='' brief_file=''
+while [ $# -gt 0 ]; do
+  case $1 in
+    --lead) lead=$2; shift 2 ;;
+    --repo) repo=$2; shift 2 ;;
+    --branch) branch=$2; shift 2 ;;
+    --base) base=$2; shift 2 ;;
+    --brief) brief=$2; shift 2 ;;
+    --brief-file) brief_file=$2; shift 2 ;;
+    --) shift; break ;;
+    *) echo "herdr-worker: unknown argument $1 (see --help)" >&2; exit 2 ;;
+  esac
+done
+[ -n "$lead" ] && [ -n "$repo" ] || { echo "herdr-worker: --lead and --repo are required (see --help)" >&2; exit 2; }
+repo=$(cd "$repo" && pwd -P)
+if [ -n "$brief_file" ]; then brief=$(cat "$brief_file"); elif [ -z "$brief" ]; then brief=$(cat); fi
+[ -n "$brief" ] || { echo "herdr-worker: the brief is empty" >&2; exit 2; }
+if ! grep -qiE '^[[:space:]]*Reports to:' <<<"$brief"; then
+  brief="Reports to: $lead"$'\n\n'"$brief"
+fi
+
+ensure
+if [ -n "$branch" ]; then
+  opened=$(hw worktree create --cwd "$repo" --branch "$branch" ${base:+--base "$base"} --no-focus)
+else
+  opened=$(hw workspace create --cwd "$repo" --no-focus)
+fi
+pane=$(jq -r '.result.root_pane.pane_id // empty' <<<"$opened")
+[ -n "$pane" ] || { echo "herdr-worker: herdr could not open the workspace: $opened" >&2; exit 1; }
+cwd=$(jq -r '.result.root_pane.cwd' <<<"$opened")
+
+started=$(hw agent start "worker-${pane//[^a-z0-9]/-}" --kind claude --pane "$pane" --timeout 60000 -- "$@" 2>&1 || true)
+if jq -e '.error.code == "agent_not_ready"' <<<"$started" >/dev/null; then
+  # Usually Claude Code's trust question for a folder Dan hasn't trusted. Never answer it for him.
+  echo "BLOCKED: Claude Code is waiting for input in $session $pane (often the folder trust question); see: herdr --session $session agent read $pane --source visible" >&2
+  exit 1
+elif ! jq -e '.result' <<<"$started" >/dev/null; then
+  echo "herdr-worker: claude did not start: $started" >&2
+  exit 1
+fi
+
+hw agent prompt "$pane" "$brief" >/dev/null
+
+# agent-board renames the agent to its pet name on the first prompt; wait for it.
+name=''
+for _ in $(seq 40); do
+  name=$(hw agent get "$pane" | jq -r '.result.agent.name // empty')
+  case $name in worker-*|'') sleep 0.5 ;; *) break ;; esac
+done
+name=${name:-$pane}
+
+cat <<EOF
+worker: $name (herdr session $session, pane $pane, $cwd)
+read:   herdr --session $session agent read $name --source recent-unwrapped --lines 80
+prompt: herdr --session $session agent prompt $name "<text>" --wait
+EOF
