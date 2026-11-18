@@ -13,7 +13,7 @@ Configs for two machines: a Mac and an Omarchy (Arch + Hyprland) PC. Everything 
 | `yazi/` | `~/.config/yazi` |
 | `zellij/` | `~/.config/zellij/config.kdl` |
 | `tmux/` | `~/.config/tmux` |
-| `herdr/` | `config.toml` to `~/.config/herdr/config.toml`, `herdr-scroll` to `~/.local/bin/herdr-scroll` |
+| `herdr/` | `config.toml` to `~/.config/herdr/config.toml`, `herdr-scroll` to `~/.local/bin/herdr-scroll`, `herdr-worker` to `~/.local/bin/herdr-worker` |
 | `rook/bin/` | prepended to `PATH` in `.bashrc` (not linked) |
 | `nvim/` | `~/.config/nvim` |
 | `starship/`, `starship.toml` | `~/.config/starship.toml` |

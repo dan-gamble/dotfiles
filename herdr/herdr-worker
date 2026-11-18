@@ -6,18 +6,28 @@ set -euo pipefail
 usage() {
   cat <<'EOF'
 Usage:
-  herdr-worker --lead <handle> --repo <dir> [--branch <name> [--base <ref>]] [--brief <text> | --brief-file <file>] [-- <claude args>]
-  herdr-worker attach      Attach a terminal to the workers session, with desktop notifications off
-  herdr-worker ensure      Start the workers server if it isn't running
+  herdr-worker --lead <handle> --repo <dir> [--branch <name> [--base <ref>]] [--lead-session <name>]
+               [--brief <text> | --brief-file <file>] [-- <claude args>]
+  herdr-worker list                  The agents in the workers session: name, state, pane, whose, task
+  herdr-worker close <name|pane> [--force]
+                                     Stop a worker: removes its worktree (git keeps the branch) or closes its workspace
+  herdr-worker attach                Attach a terminal to the workers session, with desktop notifications off
+  herdr-worker ensure                Start the workers server if it isn't running
 
-Starts the workers herdr server when it isn't running (headless, in agents.slice), opens a
-workspace for <repo> there (a new git worktree on <branch> when given), starts Claude Code in
-it and submits the brief. The brief is read from stdin when neither --brief nor --brief-file
-is given. It must report to the lead: a "Reports to: <handle>" line is added when missing.
+Starts the workers herdr server when it isn't running (headless), opens a workspace for <repo>
+there (a new git worktree on <branch> when given), starts Claude Code in it and submits the
+brief. The brief is read from stdin when neither --brief nor --brief-file is given.
 
-Prints the worker's herdr name and pane, and the commands the lead uses to reach it:
+The brief gets a "Reports to: <handle>" line when it has none agent-board can read, and a
+"Report with:" line naming the herdr command that reaches the lead in its own session
+(--lead-session, else $HERDR_SESSION, else default).
+
+Prints the worker's herdr name and pane, and the commands the lead uses to reach and close it:
   herdr --session workers agent read <name> --source recent-unwrapped --lines 80
   herdr --session workers agent prompt <name> "<text>" --wait
+  herdr-worker close <name>
+
+The lead closes each worker once it has its report: nobody else sees the workers session.
 
 HERDR_WORKER_SESSION names another session instead of workers (for tests).
 EOF
@@ -30,19 +40,29 @@ is_running() {
   herdr session list --json | jq -e --arg s "$session" '.sessions[] | select(.name == $s and .running)' >/dev/null
 }
 
-# The server runs as a transient user service in agents.slice (like the default one, see
-# ~/.local/bin/herdr), so it survives the shell that started it. A server with no client
-# attached raises no desktop notifications, so it needs no config of its own.
+# On Linux the server runs as a transient user service in agents.slice (like the default one, see
+# ~/.local/bin/herdr), so it survives the shell that started it; without systemd (the Mac) it runs
+# under nohup. A server with no client attached raises no desktop notifications, so it needs no
+# config of its own. Two launches racing to start it both go on to the poll: the loser's start
+# fails because the unit already exists, and the poll finds the winner's server.
 ensure() {
   is_running && return 0
-  systemd-run --user --quiet --collect --slice=agents.slice --unit="herdr-session-$session" \
-    --setenv=PATH="$PATH" --setenv=SHELL="${SHELL:-/bin/bash}" \
-    /usr/bin/herdr --session "$session" server
+  local bin
+  bin=$(command -v herdr)
+  if command -v systemd-run >/dev/null; then
+    systemd-run --user --quiet --collect --slice=agents.slice --unit="herdr-session-$session" \
+      --setenv=PATH="$PATH" --setenv=SHELL="${SHELL:-/bin/bash}" \
+      "$bin" --session "$session" server 2>/dev/null || true
+  else
+    env -u HERDR_ENV -u HERDR_PANE_ID -u HERDR_TAB_ID -u HERDR_WORKSPACE_ID -u HERDR_SOCKET_PATH -u HERDR_SESSION \
+      nohup "$bin" --session "$session" server >/dev/null 2>&1 </dev/null &
+    disown
+  fi
   for _ in $(seq 50); do
     hw workspace list >/dev/null 2>&1 && return 0
     sleep 0.2
   done
-  echo "herdr-worker: the $session server did not start (journalctl --user -u herdr-session-$session)" >&2
+  echo "herdr-worker: the $session server did not start (on Linux: journalctl --user -u herdr-session-$session)" >&2
   exit 1
 }
 
@@ -61,19 +81,50 @@ attach() {
     HERDR_CONFIG_PATH="$dir/config.toml" herdr session attach "$session"
 }
 
+list() {
+  is_running || { echo "herdr-worker: the $session server is not running, so it has no workers" >&2; return 0; }
+  hw agent list | jq -r '.result.agents[] | [.name, .agent_status, .pane_id, (.tokens.whose // "-"), (.tokens.task // "-")] | @tsv'
+}
+
+# Removes the workspace's worktree (git keeps the branch), or closes the workspace when it is not
+# a worktree. A worktree with uncommitted files stays unless force is given.
+discard() {
+  local ws=$1 force=${2:-} out
+  if out=$(hw worktree remove --workspace "$ws" ${force:+--force} 2>&1); then
+    return 0
+  fi
+  case $(jq -r '.error.code // empty' <<<"$out" 2>/dev/null) in
+    not_linked_worktree) hw workspace close "$ws" >/dev/null ;;
+    *) echo "herdr-worker: $out" >&2; return 1 ;;
+  esac
+}
+
+close() {
+  local target=${1:-} force='' got ws
+  [ -n "$target" ] || { echo "herdr-worker: close needs a worker name or pane (see herdr-worker list)" >&2; exit 2; }
+  [ "${2:-}" = --force ] && force=1
+  got=$(hw agent get "$target" 2>&1) || { echo "herdr-worker: no worker $target in $session: $got" >&2; exit 1; }
+  ws=$(jq -r '.result.agent.workspace_id // (.result.agent.pane_id | split(":")[0])' <<<"$got")
+  discard "$ws" "$force" || { echo "herdr-worker: $target left open; commit its work, or close it with --force to drop it" >&2; exit 1; }
+  echo "closed: $target (workspace $ws in $session)"
+}
+
 case ${1:-} in
   -h|--help|'') usage; exit 0 ;;
   attach) attach ;;
   ensure) ensure; exit 0 ;;
+  list) list; exit 0 ;;
+  close) shift; close "$@"; exit 0 ;;
 esac
 
-lead='' repo='' branch='' base='' brief='' brief_file=''
+lead='' repo='' branch='' base='' brief='' brief_file='' lead_session=${HERDR_SESSION:-default}
 while [ $# -gt 0 ]; do
   case $1 in
     --lead) lead=$2; shift 2 ;;
     --repo) repo=$2; shift 2 ;;
     --branch) branch=$2; shift 2 ;;
     --base) base=$2; shift 2 ;;
+    --lead-session) lead_session=$2; shift 2 ;;
     --brief) brief=$2; shift 2 ;;
     --brief-file) brief_file=$2; shift 2 ;;
     --) shift; break ;;
@@ -84,8 +135,15 @@ done
 repo=$(cd "$repo" && pwd -P)
 if [ -n "$brief_file" ]; then brief=$(cat "$brief_file"); elif [ -z "$brief" ]; then brief=$(cat); fi
 [ -n "$brief" ] || { echo "herdr-worker: the brief is empty" >&2; exit 2; }
-if ! grep -qiE '^[[:space:]]*Reports to:' <<<"$brief"; then
+# The line agent-board's parseReportsTo reads (plugins/agent-board/hooks/status.ts): case-sensitive,
+# the handle alone on the line.
+if ! grep -qE '^[[:space:]>*_-]*Reports to:[[:space:]]*@?`?[A-Za-z0-9][[:alnum:]_.-]*`?[[:space:].]*$' <<<"$brief"; then
   brief="Reports to: $lead"$'\n\n'"$brief"
+fi
+# The worker's pane talks to the workers server, so a plain `herdr agent prompt <lead>` can't find
+# a lead in another session. Kept off the Reports to line, which agent-board reads as the handle alone.
+if ! grep -qE '^[[:space:]>*_-]*Report with:' <<<"$brief"; then
+  brief="$brief"$'\n\n'"Report with: herdr --session $lead_session agent prompt $lead \"<your report>\""
 fi
 
 ensure
@@ -96,15 +154,24 @@ else
 fi
 pane=$(jq -r '.result.root_pane.pane_id // empty' <<<"$opened")
 [ -n "$pane" ] || { echo "herdr-worker: herdr could not open the workspace: $opened" >&2; exit 1; }
+ws=$(jq -r '.result.root_pane.workspace_id' <<<"$opened")
 cwd=$(jq -r '.result.root_pane.cwd' <<<"$opened")
 
-started=$(hw agent start "worker-${pane//[^a-z0-9]/-}" --kind claude --pane "$pane" --timeout 60000 -- "$@" 2>&1 || true)
-if jq -e '.error.code == "agent_not_ready"' <<<"$started" >/dev/null; then
+# A name unique on this server until agent-board renames it: pane IDs use digits and capitals.
+started=$(hw agent start "worker-$(tr 'A-Z:' 'a-z-' <<<"$pane")" --kind claude --pane "$pane" --timeout 60000 -- "$@" 2>&1 || true)
+if jq -e '.error.code == "agent_not_ready"' <<<"$started" >/dev/null 2>&1; then
   # Usually Claude Code's trust question for a folder Dan hasn't trusted. Never answer it for him.
-  echo "BLOCKED: Claude Code is waiting for input in $session $pane (often the folder trust question); see: herdr --session $session agent read $pane --source visible" >&2
+  screen=$(hw agent read "$pane" --source visible 2>/dev/null | tail -n 15 || true)
+  discard "$ws" force || true
+  cat >&2 <<EOF
+BLOCKED: Claude Code stopped at startup in $cwd and was not answered (often the folder trust question).
+The workspace is closed. Dan answers it by starting claude in $repo once himself. Its screen was:
+$screen
+EOF
   exit 1
-elif ! jq -e '.result' <<<"$started" >/dev/null; then
-  echo "herdr-worker: claude did not start: $started" >&2
+elif ! jq -e '.result' <<<"$started" >/dev/null 2>&1; then
+  discard "$ws" force || true
+  echo "herdr-worker: claude did not start, workspace closed: $started" >&2
   exit 1
 fi
 
@@ -122,4 +189,5 @@ cat <<EOF
 worker: $name (herdr session $session, pane $pane, $cwd)
 read:   herdr --session $session agent read $name --source recent-unwrapped --lines 80
 prompt: herdr --session $session agent prompt $name "<text>" --wait
+close:  herdr-worker close $name    (once you have its report)
 EOF
