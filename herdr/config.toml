@@ -113,11 +113,17 @@ agent_panel_sort = "priority"
 
 status_indicators = "dots"
 
-# Agent rows: the repo folder, then `<worktree> (<pet name>)`. Both come from the
-# agent-board Claude Code mod. `workspace` stays on line 1 so agents without the mod
-# still show where they are; drop it once every session runs the mod
+# Agent rows, all from the agent-board Claude Code mod: the session's status (bold red
+# when it needs you, dim when a worker has handed back to its lead) and repo folder,
+# what it asks of you (only on a needs-you session), its task, then
+# `<worktree> (<pet name>)`. Agents without the mod show only the state icon on line 1
 [ui.sidebar.agents]
-rows = [["state_icon", "$repo", "workspace"], ["agent"]]
+rows = [
+  ["state_icon", { token = "$status", rules = [{ equals = "needs you", fg = "#ff5555", bold = true }, { starts_with = "→", dim = true }] }, "$repo"],
+  ["$ask"],
+  ["$task"],
+  ["agent"],
+]
 
 [ui.toast]
 delivery = "system"
@@ -147,3 +153,5 @@ key = "alt+shift+d"
 type = "shell"
 command = "~/.local/bin/herdr-scroll half-down"
 
+[ui.sound]
+enabled = false
