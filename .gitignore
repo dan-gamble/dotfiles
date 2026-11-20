@@ -1,19 +1,5 @@
 .DS_Store
 
-# Cursor editor state, never config
-mac/.cursor/User/History/
-mac/.cursor/User/workspaceStorage/
-mac/.cursor/User/globalStorage/
-mac/.cursor/extensions/
-mac/.cursor/shouldUpdate
-mac/.cursor/projects/
-mac/.cursor/plugins/
-mac/.cursor/skills/
-mac/.cursor/skills-cursor/
-mac/.cursor/ai-tracking/
-mac/.cursor/sandbox-policies/
-mac/.cursor/agents/
-
 # Zed local state
 mac/.config/zed/.tmp*
 mac/.config/zed/conversations/

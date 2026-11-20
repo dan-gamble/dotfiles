@@ -11,7 +11,6 @@ Linked into `$HOME` on the Mac by `./dot stow`. Never linked on the PC.
 | `.config/tmux/` | `~/.config/tmux` | `plugins/*` are gitlinks (empty submodules); TPM fills them in |
 | `.config/mise/config.toml` | `~/.config/mise/config.toml` | The PC keeps its own, different mise config |
 | `.config/zed/` | `~/.config/zed` | Local state is gitignored at the repo root |
-| `.cursor/` | `~/.cursor` | Cursor's own `.gitignore` inside it keeps agent transcripts and state out of the repo. Don't delete it |
 | `Library/Application Support/com.mitchellh.ghostty/config` | same path under `~` | Left Option is Alt for herdr's `alt+` binds; right Option still types `#` on the British layout |
 
 ## NOTES

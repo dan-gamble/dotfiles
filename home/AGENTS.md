@@ -14,7 +14,7 @@ Linked into `$HOME` on the Mac and the Omarchy PC by `./dot stow`. Only put thin
 | `.local/bin/herdr-scroll`, `.local/bin/herdr-worker` | Called by the herdr config and by agents. Must stay executable |
 | `.claude/statusline.sh` | Claude Code status line. Branches on `uname` for Keychain vs `~/.claude/.credentials.json` |
 | `.pi/` | pi config and extension workspace (AGENTS.md) |
-| `.agents/skills/` | Agent skills shared by pi, Claude Code and Cursor (AGENTS.md) |
+| `.agents/skills/` | Agent skills shared by pi and Claude Code (AGENTS.md) |
 
 ## CONVENTIONS
 

@@ -10,7 +10,6 @@ brew install stow          # Mac
 sudo pacman -S stow        # Omarchy
 ~/.dotfiles/dot stow
 ~/.dotfiles/dot doctor
-~/.dotfiles/cursor-agent/install.sh
 ```
 
 Then, for pi: `cd ~/.pi && npm install` (extension types), and set `~/.pi/agent/settings.json` from `home/.pi/AGENTS.md`.
@@ -23,11 +22,10 @@ A Stow package mirrors `$HOME`: `home/.config/herdr/config.toml` is linked to `~
 
 | Dir | What it is |
 |---|---|
-| `home/` | Linked on both machines: aliases, git, starship, herdr (+ `herdr-scroll`, `herdr-worker`), yazi, zellij, Claude Code status line, pi config (`.pi/`), agent skills (`.agents/skills/`) |
-| `mac/` | Linked on the Mac only: zsh, nvim, tmux, mise, zed, `~/.cursor`, Ghostty |
+| `home/` | Linked on both machines: aliases, git, starship, herdr (+ `herdr-scroll`, `herdr-worker`), yazi, zellij, Claude Code status line, pi config (`.pi/`), agent skills (`.agents/skills/`, also linked into `~/.claude/skills`) |
+| `mac/` | Linked on the Mac only: zsh, nvim, tmux, mise, zed, Ghostty |
 | `omarchy/` | Linked on the PC only: PC-specific pi instructions |
 | `rook/` | Agent git/gh identity shims, on `PATH` via `~/.bashrc`; not stowed |
-| `cursor-agent/` | Cursor CLI config, rules and MCP servers; also links the skills into `~/.cursor/skills` and `~/.claude/skills` |
 | `packages/` | `Brewfile`, `brew.sh`. The Arch equivalent doesn't live here yet |
 | `macos/` | Mac app settings imported by hand: iTerm, Sublime, BetterTouchTool, Velja, `.osx`, JetBrains |
 | `archive/` | Configs no machine uses any more (fish, vim, virtualenvwrapper, old zsh, gh, git template) |

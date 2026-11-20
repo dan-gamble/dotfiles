@@ -13,7 +13,6 @@ Dan's dotfiles for two machines: a Mac and an Omarchy (Arch + Hyprland) PC. GNU 
 ├── mac/            # Stow package, linked on the Mac only (AGENTS.md)
 ├── omarchy/        # Stow package, linked on the PC only (AGENTS.md)
 ├── rook/           # Agent-identity git/gh shims, put on PATH, never stowed (AGENTS.md)
-├── cursor-agent/   # Cursor CLI config + rules, linked by its install.sh (AGENTS.md)
 ├── packages/       # Brewfile, brew.sh (Arch package list doesn't exist yet)
 ├── macos/          # Mac app exports imported by hand: iTerm, Sublime, BTT, Velja, .osx, JetBrains
 └── archive/        # Configs no machine uses any more, kept for reference
@@ -33,10 +32,9 @@ A stow package mirrors `$HOME`: `home/.config/herdr/config.toml` is linked to `~
 | Claude Code status line | `home/.claude/statusline.sh` |
 | pi: global instructions, extensions, models | `home/.pi/` (AGENTS.md) |
 | pi: PC-only instructions | `omarchy/.pi/agent/APPEND_SYSTEM.md` |
-| Agent skills (pi, Claude Code, Cursor) | `home/.agents/skills/` (AGENTS.md) |
-| zsh, nvim, tmux, mise, zed, Ghostty, Cursor (Mac) | `mac/` (AGENTS.md) |
+| Agent skills (pi, Claude Code) | `home/.agents/skills/` (AGENTS.md) |
+| zsh, nvim, tmux, mise, zed, Ghostty (Mac) | `mac/` (AGENTS.md) |
 | Git/gh identity for agents | `rook/` (AGENTS.md) |
-| Cursor agent rules, MCP servers | `cursor-agent/` (AGENTS.md) |
 | Mac packages | `packages/Brewfile` |
 
 ## CONVENTIONS
@@ -70,10 +68,10 @@ Stow itself: `brew install stow` on the Mac, `sudo pacman -S stow` on the PC.
 
 - Commits from an agent are authored as `rook-bao` (see `rook/`). That account can't push to this repo, so leave pushing to Dan.
 - The Mac half of the stow layout was written on the PC. If `./dot doctor` on the Mac reports conflicts, fix the package rather than the Mac.
-- `cursor-agent/install.sh` links `home/.agents/skills/*` into `~/.cursor/skills` and `~/.claude/skills`; Stow links them into `~/.agents/skills`.
+- Stow links `home/.agents/skills/*` into `~/.agents/skills` (pi); `./dot stow` then links each into `~/.claude/skills` (Claude Code).
 
 ## IF YOU NOTICE DRIFT, FIX IT
 
-- A tracked skill (`home/.agents/skills/<name>`) that is a real directory in `~/.agents/skills`, `~/.claude/skills` or `~/.cursor/skills`: fold any newer content into the repo copy, delete the live directory, re-run `./dot stow` and `./cursor-agent/install.sh`.
+- A tracked skill (`home/.agents/skills/<name>`) that is a real directory in `~/.agents/skills` or `~/.claude/skills`: fold any newer content into the repo copy, delete the live directory, re-run `./dot stow`.
 - A linked file that became a real file (an app rewrote it): diff it with the repo copy, keep what matters, then restore the link with `./dot stow`.
 - Don't restore files Dan deleted from the repo.
