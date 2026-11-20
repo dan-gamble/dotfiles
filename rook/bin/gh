@@ -2,7 +2,7 @@
 # Agent-identity gh shim (cross-platform port of the mbp ~/.local/bin/gh shim).
 # When gh is invoked from a coding-agent context (pi sets AI_AGENT/PI_CODING_AGENT,
 # Claude Code sets CLAUDECODE, Cursor sets CURSOR_AGENT, jcode sets JCODE_SCRATCH_DIR
-# and JCODE_ACTIVE_PROVIDER on every tool subprocess), API calls authenticate as
+# and JCODE_ACTIVE_PROVIDER, Codex sets CODEX_THREAD_ID on every tool subprocess), API calls authenticate as
 # the Rook machine user via GH_TOKEN, so PRs, comments, and reviews are attributed
 # to the bot. Human shells carry none of these markers and use Dan's normal gh auth.
 #
@@ -13,7 +13,7 @@ ROOK_ENV="$HOME/.config/rook/identity.env"
 
 if [ -f "$ROOK_ENV" ] && [ -z "${GH_TOKEN:-}" ] && [ -z "${GITHUB_TOKEN:-}" ] &&
    { [ -n "${AI_AGENT:-}" ] || [ -n "${CLAUDECODE:-}" ] || [ "${PI_CODING_AGENT:-}" = "true" ] ||
-     [ -n "${CURSOR_AGENT:-}" ] || [ -n "${JCODE_SCRATCH_DIR:-}" ] || [ -n "${JCODE_ACTIVE_PROVIDER:-}" ]; }; then
+     [ -n "${CURSOR_AGENT:-}" ] || [ -n "${JCODE_SCRATCH_DIR:-}" ] || [ -n "${JCODE_ACTIVE_PROVIDER:-}" ] || [ -n "${CODEX_THREAD_ID:-}" ]; }; then
   # shellcheck source=/dev/null
   . "$ROOK_ENV"
   if [ -n "${ROOK_GH_TOKEN:-}" ]; then

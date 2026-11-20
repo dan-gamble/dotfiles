@@ -2,7 +2,7 @@
 # Agent-identity git shim (cross-platform port of the mbp ~/.local/bin/git shim).
 # When git is invoked from a coding-agent context (pi sets AI_AGENT/PI_CODING_AGENT,
 # Claude Code sets CLAUDECODE, Cursor sets CURSOR_AGENT, jcode sets JCODE_SCRATCH_DIR
-# and JCODE_ACTIVE_PROVIDER on every tool subprocess), commits are authored and
+# and JCODE_ACTIVE_PROVIDER, Codex sets CODEX_THREAD_ID on every tool subprocess), commits are authored and
 # pushes are authenticated as the Rook machine user. Human shells carry none of
 # these markers and pass straight through untouched.
 #
@@ -16,7 +16,7 @@ ROOK_ENV="$HOME/.config/rook/identity.env"
 
 if [ -f "$ROOK_ENV" ] && [ -z "${GIT_AUTHOR_NAME:-}" ] &&
    { [ -n "${AI_AGENT:-}" ] || [ -n "${CLAUDECODE:-}" ] || [ "${PI_CODING_AGENT:-}" = "true" ] ||
-     [ -n "${CURSOR_AGENT:-}" ] || [ -n "${JCODE_SCRATCH_DIR:-}" ] || [ -n "${JCODE_ACTIVE_PROVIDER:-}" ]; }; then
+     [ -n "${CURSOR_AGENT:-}" ] || [ -n "${JCODE_SCRATCH_DIR:-}" ] || [ -n "${JCODE_ACTIVE_PROVIDER:-}" ] || [ -n "${CODEX_THREAD_ID:-}" ]; }; then
   # shellcheck source=/dev/null
   . "$ROOK_ENV"
 
