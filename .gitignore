@@ -20,3 +20,6 @@ mac/.config/zed/conversations/
 mac/.config/zed/embeddings/
 mac/.config/zed/prompts/
 mac/.config/zed/settings_backup.json
+
+# npm installs (pi extension workspace)
+node_modules/

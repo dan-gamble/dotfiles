@@ -70,7 +70,7 @@ is_legacy_link() {
   text="$(readlink "$1")"
   case "$text" in
     *".dotfiles/home/"* | *".dotfiles/mac/"* | *".dotfiles/omarchy/"*) return 1 ;;
-    *".dotfiles/rook/"* | *".dotfiles/cursor-agent/"* | *".dotfiles/agents/"*) return 1 ;;
+    *".dotfiles/rook/"* | *".dotfiles/cursor-agent/"*) return 1 ;;
     *".dotfiles/"*) return 0 ;;
     *) return 1 ;;
   esac

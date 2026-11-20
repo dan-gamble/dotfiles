@@ -1,0 +1,16 @@
+{
+  "name": "dot-pi",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "agent/extensions/*"
+  ],
+  "scripts": {
+    "check": "tsc --noEmit -p ."
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "^1.5.2",
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.2"
+  }
+}

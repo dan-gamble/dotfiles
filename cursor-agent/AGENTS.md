@@ -16,4 +16,5 @@ The machine-independent half of `~/.cursor` for the Cursor agent, plus the link 
 
 - Not a stow package: on the Mac `~/.cursor` is `mac/.cursor/` itself, so stowing these into it would put links inside the repo.
 - Run `./cursor-agent/install.sh` after adding a rule or a skill. It's safe to re-run; it backs up real files as `.bak`.
+- Cursor rewrites `~/.cursor/cli-config.json` as a real file (login cache, selected model), which replaces the link. `install.sh` then moves it to `.bak`. Restore the `.bak` if Cursor loses its login or model, and copy any setting worth keeping into the repo by hand.
 - Vendored Cloudflare skills, plugins, project state and transcripts are never tracked. Fetch them per machine.

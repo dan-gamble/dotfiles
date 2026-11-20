@@ -8,11 +8,12 @@ Dan's dotfiles for two machines: a Mac and an Omarchy (Arch + Hyprland) PC. GNU 
 .dotfiles/
 ├── dot             # CLI: stow / unstow / doctor / machine
 ├── home/           # Stow package, linked on both machines (AGENTS.md)
+│   ├── .pi/        # pi config + extension workspace (AGENTS.md)
+│   └── .agents/    # Shared agent skills (AGENTS.md)
 ├── mac/            # Stow package, linked on the Mac only (AGENTS.md)
-├── omarchy/        # Stow package, linked on the PC only (not created yet)
+├── omarchy/        # Stow package, linked on the PC only (AGENTS.md)
 ├── rook/           # Agent-identity git/gh shims, put on PATH, never stowed (AGENTS.md)
 ├── cursor-agent/   # Cursor CLI config + rules, linked by its install.sh (AGENTS.md)
-├── agents/skills/  # Skills Dan wrote, linked by cursor-agent/install.sh
 ├── packages/       # Brewfile, brew.sh (Arch package list doesn't exist yet)
 ├── macos/          # Mac app exports imported by hand: iTerm, Sublime, BTT, Velja, .osx, JetBrains
 └── archive/        # Configs no machine uses any more, kept for reference
@@ -30,6 +31,9 @@ A stow package mirrors `$HOME`: `home/.config/herdr/config.toml` is linked to `~
 | herdr config and scripts | `home/.config/herdr/` (AGENTS.md), `home/.local/bin/herdr-*` |
 | yazi, zellij | `home/.config/yazi/`, `home/.config/zellij/` |
 | Claude Code status line | `home/.claude/statusline.sh` |
+| pi: global instructions, extensions, models | `home/.pi/` (AGENTS.md) |
+| pi: PC-only instructions | `omarchy/.pi/agent/APPEND_SYSTEM.md` |
+| Agent skills (pi, Claude Code, Cursor) | `home/.agents/skills/` (AGENTS.md) |
 | zsh, nvim, tmux, mise, zed, Ghostty, Cursor (Mac) | `mac/` (AGENTS.md) |
 | Git/gh identity for agents | `rook/` (AGENTS.md) |
 | Cursor agent rules, MCP servers | `cursor-agent/` (AGENTS.md) |
@@ -66,4 +70,10 @@ Stow itself: `brew install stow` on the Mac, `sudo pacman -S stow` on the PC.
 
 - Commits from an agent are authored as `rook-bao` (see `rook/`). That account can't push to this repo, so leave pushing to Dan.
 - The Mac half of the stow layout was written on the PC. If `./dot doctor` on the Mac reports conflicts, fix the package rather than the Mac.
-- `cursor-agent/install.sh` still links `agents/skills/` into `~/.cursor/skills` and `~/.claude/skills`.
+- `cursor-agent/install.sh` links `home/.agents/skills/*` into `~/.cursor/skills` and `~/.claude/skills`; Stow links them into `~/.agents/skills`.
+
+## IF YOU NOTICE DRIFT, FIX IT
+
+- A tracked skill (`home/.agents/skills/<name>`) that is a real directory in `~/.agents/skills`, `~/.claude/skills` or `~/.cursor/skills`: fold any newer content into the repo copy, delete the live directory, re-run `./dot stow` and `./cursor-agent/install.sh`.
+- A linked file that became a real file (an app rewrote it): diff it with the repo copy, keep what matters, then restore the link with `./dot stow`.
+- Don't restore files Dan deleted from the repo.

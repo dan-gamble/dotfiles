@@ -22,7 +22,7 @@ for f in "$DOTFILES/cursor-agent/rules/"*.mdc; do
 done
 
 # Personal skills, shared by every agent that reads a skills dir
-for s in "$DOTFILES/agents/skills/"*/; do
+for s in "$DOTFILES/home/.agents/skills/"*/; do
   name="$(basename "$s")"
   link "${s%/}" "$HOME/.cursor/skills/$name"
   link "${s%/}" "$HOME/.claude/skills/$name"
