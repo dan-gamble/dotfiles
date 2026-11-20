@@ -1,74 +1,43 @@
 # dotfiles
 
-Configs for two machines: a Mac and an Omarchy (Arch + Hyprland) PC. Everything cross-platform gets linked on both, the Mac-only stuff stays on the Mac.
-
-## Cross-platform (link on both machines)
-
-| Dir | Links to |
-|---|---|
-| `zsh/` | `~/.zshrc`, `~/.zshrcFunctions` |
-| `git/` | `~/.gitconfig`, `~/.gitignore_global` |
-| `aliases/` | `~/.aliases` |
-| `mise/` | `~/.config/mise` |
-| `yazi/` | `~/.config/yazi` |
-| `zellij/` | `~/.config/zellij/config.kdl` |
-| `tmux/` | `~/.config/tmux` |
-| `herdr/` | `config.toml` to `~/.config/herdr/config.toml`, `herdr-scroll` to `~/.local/bin/herdr-scroll`, `herdr-worker` to `~/.local/bin/herdr-worker` |
-| `rook/bin/` | prepended to `PATH` in `.bashrc` (not linked) |
-| `nvim/` | `~/.config/nvim` |
-| `starship/`, `starship.toml` | `~/.config/starship.toml` |
-| `cursor-agent/` | `~/.cursor/cli-config.json`, `~/.cursor/mcp.json`, `~/.cursor/rules/*.mdc` (run `cursor-agent/install.sh`) |
-| `agents/skills/` | `~/.cursor/skills/<name>`, `~/.claude/skills/<name>` (same script) |
-| `claude/` | `~/.claude/statusline.sh` (Claude Code status line; needs `jq`, and `statusLine.command` pointed at it in `~/.claude/settings.json`) |
-
-`.zshrc` expects these installed: zinit, zoxide, fzf, mise, atuin, starship.
-
-`claude/statusline.sh` is one script for both machines: it reads the OAuth token from the Keychain on macOS and from `~/.claude/.credentials.json` on Linux, and branches on `uname` for BSD vs GNU `date`. `settings.json` itself is not tracked, since Claude Code rewrites it and most of it is machine-specific.
-
-## Rook agent identity
-
-`rook/bin/git` and `rook/bin/gh` are shims that swap in the Rook machine user (`rook-bao`) whenever git or gh runs inside a coding agent (Claude Code, pi, Cursor, jcode — which sets no agent flag of its own, so the shims key off `JCODE_SCRATCH_DIR`/`JCODE_ACTIVE_PROVIDER`, present on every tool subprocess it spawns). Human shells pass straight through. They read `~/.config/rook/identity.env` (name, noreply email, SSH key path, gh token) which is **not** in this repo; copy it and `~/.ssh/rook_bot` from a machine that has them. The shims exec the next `git`/`gh` on `PATH`, so the same files work on the Mac and on Arch. On the Mac the original shims still live in `~/.local/bin`.
-
-## Cursor agent config
-
-`cursor-agent/` holds the machine-independent half of `~/.cursor`: the CLI config (zen display mode, allowlist approvals, agent attribution), the MCP server list (Linear, Shopify dev, Cloudflare docs, browser tools), and the two always-apply rules — `git-rook-persona` (never override the git/gh identity shims) and `pstack-models` (per-role model picks). Vendored Cloudflare skills, plugins, project state and transcripts stay untracked; re-fetch those on each machine.
-
-`agents/skills/` holds skills written here rather than downloaded: `bao-theme` and `show-me`. `cursor-agent/install.sh` links them into both `~/.cursor/skills` and `~/.claude/skills`, so Cursor and Claude Code see one copy.
-
-Run after cloning on a new machine:
-
-```sh
-~/.dotfiles/cursor-agent/install.sh
-```
-
-`cursor/` and `.cursor/User/` are the *editor* (GUI) settings and stay Mac-only.
-
-## Mac only
-
-- `Brewfile` / `brew.sh` — packages and casks, `brew bundle`
-- `.osx` — macOS defaults
-- `cursor/` — Cursor settings and keybindings
-- `iTerm/`, `sublime/` — app settings
-- `ghostty/config.mac` — linked to `~/Library/Application Support/com.mitchellh.ghostty/config`. Left Option is Alt for herdr's `alt+` binds; right Option still types `#` on the British layout
-- `dang.bttpreset` — BetterTouchTool
-- `Velja Rules.velja-rules` — Velja link routing
-
-None of this gets linked on Omarchy. The Arch equivalent of the Brewfile is a pacman/AUR list, which doesn't live here yet.
-
-## Omarchy notes
-
-- Omarchy manages its own Hyprland, waybar and theming config through its update mechanism. Don't link over those; keep any PC-only overrides out of this repo or in a dedicated dir that only the PC links.
-- Terminal: iTerm config here is Mac-only. Ghostty is the cross-platform choice if a shared terminal config gets added.
-- herdr: one config for both machines (tmux-mirror keymap on `ctrl+space`, `terminal` theme so it follows the Omarchy theme). Ghostty on Omarchy is Omarchy-managed, so only the Mac's Ghostty config lives here.
+Configs for two machines: a Mac and an Omarchy (Arch + Hyprland) PC. [GNU Stow](https://www.gnu.org/software/stow/) links them into `$HOME`; `./dot` wraps it.
 
 ## Setup
 
-Symlinks are currently created by hand, e.g.:
-
 ```sh
-ln -s ~/.dotfiles/zsh/.zshrc ~/.zshrc
-ln -s ~/.dotfiles/git/.gitconfig ~/.gitconfig
-ln -s ~/.dotfiles/mise ~/.config/mise
+git clone git@github.com:dan-gamble/dotfiles.git ~/.dotfiles
+brew install stow          # Mac
+sudo pacman -S stow        # Omarchy
+~/.dotfiles/dot stow
+~/.dotfiles/dot doctor
+~/.dotfiles/cursor-agent/install.sh
 ```
 
-TODO: replace with GNU stow (works identically on macOS and Arch): https://medium.com/@protiumx/bash-gnu-stow-take-a-walk-while-your-new-macbook-is-being-set-up-351a6f2f9225
+`dot stow` links `home/` plus the machine's own package. Links made by hand before the move to Stow are replaced; real files are never overwritten, and show up as conflicts in `dot doctor`.
+
+## Layout
+
+A Stow package mirrors `$HOME`: `home/.config/herdr/config.toml` is linked to `~/.config/herdr/config.toml`.
+
+| Dir | What it is |
+|---|---|
+| `home/` | Linked on both machines: aliases, git, starship, herdr (+ `herdr-scroll`, `herdr-worker`), yazi, zellij, Claude Code status line |
+| `mac/` | Linked on the Mac only: zsh, nvim, tmux, mise, zed, `~/.cursor`, Ghostty |
+| `omarchy/` | Linked on the PC only (not created yet) |
+| `rook/` | Agent git/gh identity shims, on `PATH` via `~/.bashrc`; not stowed |
+| `cursor-agent/` | Cursor CLI config, rules and MCP servers; linked by `cursor-agent/install.sh` |
+| `agents/skills/` | Skills written here (`bao-theme`, `show-me`, `grilling`, `grill-me`); linked into `~/.cursor/skills` and `~/.claude/skills` by the same script |
+| `packages/` | `Brewfile`, `brew.sh`. The Arch equivalent doesn't live here yet |
+| `macos/` | Mac app settings imported by hand: iTerm, Sublime, BetterTouchTool, Velja, `.osx`, JetBrains |
+| `archive/` | Configs no machine uses any more (fish, vim, virtualenvwrapper, old zsh, gh, git template) |
+
+Each area has an `AGENTS.md` describing it for coding agents; start at the root one.
+
+## Rook agent identity
+
+`rook/bin/git` and `rook/bin/gh` swap in the Rook machine user (`rook-bao`) whenever git or gh runs inside a coding agent (Claude Code, pi, Cursor, jcode, Codex). Human shells pass straight through. They read `~/.config/rook/identity.env` and `~/.ssh/rook_bot`, which are **not** in this repo; copy them from a machine that has them. See `rook/AGENTS.md`.
+
+## Omarchy notes
+
+- Omarchy manages its own Hyprland, waybar, theming, Ghostty, nvim (LazyVim) and tmux config. Don't link over those; PC-only overrides go in `omarchy/`.
+- herdr: one config for both machines (tmux-mirror keymap on `ctrl+space`, `terminal` theme so it follows the Omarchy theme).

@@ -1,0 +1,180 @@
+#!/usr/bin/env bash
+# dot: link this repo into $HOME with GNU Stow, and check the links.
+# Runs on the Mac's stock bash 3.2 as well as Arch, so no associative arrays or mapfile.
+set -euo pipefail
+
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+STOW="${STOW:-stow}"
+
+usage() {
+  cat <<'EOF'
+Usage: dot <command>
+
+Commands:
+  stow      Link home/ plus this machine's package (mac/ or omarchy/) into $HOME.
+            Old hand-made links into ~/.dotfiles are replaced; real files are never touched.
+  unstow    Remove every link this machine's packages created.
+  doctor    Report conflicts, broken links into ~/.dotfiles, and anything not yet linked.
+  machine   Print which machine this is (mac or omarchy).
+  help      Show this message.
+
+Packages:
+  home/     Linked on every machine
+  mac/      Linked on the Mac only
+  omarchy/  Linked on the Omarchy PC only
+
+Set STOW=/path/to/stow to use a stow that isn't on PATH.
+EOF
+}
+
+say() { printf '%s\n' "$*"; }
+warn() { printf 'dot: %s\n' "$*" >&2; }
+die() { warn "$*"; exit 1; }
+
+machine() {
+  case "$(uname -s)" in
+    Darwin) say mac ;;
+    Linux)
+      if [ -d /usr/share/omarchy ] || command -v omarchy-version >/dev/null 2>&1; then
+        say omarchy
+      else
+        die "unknown Linux machine (no /usr/share/omarchy); add a package for it"
+      fi
+      ;;
+    *) die "unsupported OS: $(uname -s)" ;;
+  esac
+}
+
+# Packages for this machine that exist in the repo.
+packages() {
+  local m pkg
+  m="$(machine)"
+  for pkg in home "$m"; do
+    [ -d "$DOTFILES/$pkg" ] && say "$pkg"
+  done
+}
+
+require_stow() {
+  command -v "$STOW" >/dev/null 2>&1 && return 0
+  case "$(machine)" in
+    mac) die "stow not found: brew install stow" ;;
+    *) die "stow not found: sudo pacman -S stow" ;;
+  esac
+}
+
+# True when a symlink's text points into this repo but not into any stow package:
+# a link made by hand before the repo moved to stow. Links into rook/ (the git/gh shims)
+# and cursor-agent/ (made by its install.sh) are managed outside stow on purpose.
+is_legacy_link() {
+  local text
+  text="$(readlink "$1")"
+  case "$text" in
+    *".dotfiles/home/"* | *".dotfiles/mac/"* | *".dotfiles/omarchy/"*) return 1 ;;
+    *".dotfiles/rook/"* | *".dotfiles/cursor-agent/"* | *".dotfiles/agents/"*) return 1 ;;
+    *".dotfiles/"*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+# Remove hand-made links that sit where a package wants to put its own.
+# find lists parents before children, so a legacy directory link goes before we look inside it.
+remove_legacy_links() {
+  local pkg="$1" rel target
+  while IFS= read -r rel; do
+    target="$HOME/${rel#./}"
+    if [ -L "$target" ] && is_legacy_link "$target"; then
+      say "replacing old link $target -> $(readlink "$target")"
+      rm "$target"
+    fi
+  done < <(cd "$DOTFILES/$pkg" && find . -mindepth 1)
+}
+
+cmd_stow() {
+  require_stow
+  local pkg
+  for pkg in $(packages); do
+    remove_legacy_links "$pkg"
+    say "stowing $pkg/"
+    "$STOW" --dir="$DOTFILES" --target="$HOME" --restow "$pkg"
+  done
+}
+
+cmd_unstow() {
+  require_stow
+  local pkg
+  for pkg in $(packages); do
+    say "unstowing $pkg/"
+    "$STOW" --dir="$DOTFILES" --target="$HOME" --delete "$pkg"
+  done
+}
+
+# Directories where links into the repo live; kept shallow so the scan stays quick.
+scan_roots() {
+  say "1|$HOME"
+  say "3|$HOME/.config"
+  say "1|$HOME/.local/bin"
+  say "2|$HOME/.claude"
+  say "3|$HOME/.cursor"
+  say "3|$HOME/.agents"
+  say "4|$HOME/.pi"
+  say "2|$HOME/Library/Application Support"
+}
+
+cmd_doctor() {
+  local problems=0 pkg out root depth link
+
+  say "machine: $(machine)"
+  say "packages: $(packages | tr '\n' ' ')"
+
+  if command -v "$STOW" >/dev/null 2>&1; then
+    say "stow: $("$STOW" --version 2>&1 | head -1)"
+    for pkg in $(packages); do
+      if out="$("$STOW" --dir="$DOTFILES" --target="$HOME" --no --verbose=1 "$pkg" 2>&1)"; then
+        if printf '%s\n' "$out" | grep -q '^LINK'; then
+          say "$pkg/: not fully linked, run: dot stow"
+          problems=$((problems + 1))
+        else
+          say "$pkg/: linked"
+        fi
+      else
+        say "$pkg/: conflicts"
+        printf '%s\n' "$out" | grep -E 'existing target|cannot stow|over existing' | sed 's/^/  /'
+        problems=$((problems + 1))
+      fi
+    done
+  else
+    say "stow: missing"
+    problems=$((problems + 1))
+  fi
+
+  while IFS='|' read -r depth root; do
+    [ -d "$root" ] || continue
+    while IFS= read -r link; do
+      if [ ! -e "$link" ]; then
+        say "broken link: $link -> $(readlink "$link")"
+        problems=$((problems + 1))
+      elif is_legacy_link "$link"; then
+        say "old hand-made link: $link -> $(readlink "$link")"
+        problems=$((problems + 1))
+      fi
+    done < <(find "$root" -mindepth 1 -maxdepth "$depth" -type l 2>/dev/null | while IFS= read -r l; do
+      case "$(readlink "$l")" in *.dotfiles*) say "$l" ;; esac
+    done)
+  done < <(scan_roots)
+
+  if [ "$problems" -eq 0 ]; then
+    say "all good"
+  else
+    say "$problems problem(s)"
+    return 1
+  fi
+}
+
+case "${1:-help}" in
+  stow) cmd_stow ;;
+  unstow) cmd_unstow ;;
+  doctor) cmd_doctor ;;
+  machine) machine ;;
+  help | -h | --help) usage ;;
+  *) usage; exit 1 ;;
+esac

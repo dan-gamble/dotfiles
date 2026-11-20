@@ -68,8 +68,8 @@ alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && kil
 
 # Shell conveniences
 alias sz='source ~/.zshrc'
-alias ez='vim ~/.dotfiles/zsh/.zshrc'
-alias ex='vim ~/.dotfiles/tmux/tmux.conf'
+alias ez='vim ~/.dotfiles/mac/.zshrc'
+alias ex='vim ~/.dotfiles/mac/.config/tmux/tmux.conf'
 
 # Lock the screen (when going AFK)
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"

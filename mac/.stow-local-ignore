@@ -1,0 +1,21 @@
+# Stow's default ignore list (a local file replaces it, so it's repeated here)...
+RCS
+.+,v
+CVS
+\.\#.+
+\.cvsignore
+\.svn
+_darcs
+\.hg
+\.git
+\.gitignore
+\.gitmodules
+.+~
+\#.*\#
+^/README.*
+^/LICENSE.*
+^/COPYING
+
+# ...plus the package's own AGENTS.md: linked into $HOME it would read as
+# instructions for everything under ~. Nested ones (.config/herdr/AGENTS.md) still link.
+^/AGENTS\.md
