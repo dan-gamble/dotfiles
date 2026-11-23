@@ -25,14 +25,14 @@ MINS=$((DURATION_MS / 60000)); SECS=$(((DURATION_MS % 60000) / 1000))
 COST_FMT=$(printf '$%.2f' "$COST")
 
 # All rate-limit data comes from the usage endpoint (the stdin JSON lacks the
-# Fable bucket), fetched with the OAuth token (macOS Keychain, or ~/.claude/.credentials.json on Linux) and cached for 60s.
+# Fable bucket), fetched with the OAuth token (~/.claude/.credentials.json, then the
+# macOS Keychain, whose copy can be stale) and cached for 60s.
 # Token stays in memory only. Omit the whole segment on any failure.
 USAGE_CACHE="$HOME/.claude/statusline-usage-cache.json"
 if [ ! -f "$USAGE_CACHE" ] || [ -n "$(find "$USAGE_CACHE" -mmin +1 2>/dev/null)" ]; then
-    if [ "$(uname)" = "Darwin" ]; then
+    TOKEN=$(jq -r '.claudeAiOauth.accessToken // empty' "$HOME/.claude/.credentials.json" 2>/dev/null)
+    if [ -z "$TOKEN" ] && [ "$(uname)" = "Darwin" ]; then
         TOKEN=$(security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null | jq -r '.claudeAiOauth.accessToken // empty')
-    else
-        TOKEN=$(jq -r '.claudeAiOauth.accessToken // empty' "$HOME/.claude/.credentials.json" 2>/dev/null)
     fi
     if [ -n "$TOKEN" ]; then
         USAGE=$(curl -s --max-time 2 https://api.anthropic.com/api/oauth/usage \
