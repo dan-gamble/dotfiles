@@ -9,3 +9,6 @@ mac/.config/zed/settings_backup.json
 
 # npm installs (pi extension workspace)
 node_modules/
+
+# Private package: its own git repo (dan-gamble/dotfiles-private), cloned here by hand
+/private/

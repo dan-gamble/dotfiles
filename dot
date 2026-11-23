@@ -23,6 +23,7 @@ Packages:
   home/     Linked on every machine
   mac/      Linked on the Mac only
   omarchy/  Linked on the Omarchy PC only
+  private/  Linked on every machine that has it: a clone of the private repo, gitignored here
 
 Set STOW=/path/to/stow to use a stow that isn't on PATH.
 EOF
@@ -46,11 +47,11 @@ machine() {
   esac
 }
 
-# Packages for this machine that exist in the repo.
+# Packages for this machine that exist in the repo. private/ is skipped when it isn't cloned.
 packages() {
   local m pkg
   m="$(machine)"
-  for pkg in home "$m"; do
+  for pkg in home "$m" private; do
     [ -d "$DOTFILES/$pkg" ] && say "$pkg"
   done
 }
@@ -70,7 +71,7 @@ is_legacy_link() {
   local text
   text="$(readlink "$1")"
   case "$text" in
-    *".dotfiles/home/"* | *".dotfiles/mac/"* | *".dotfiles/omarchy/"*) return 1 ;;
+    *".dotfiles/home/"* | *".dotfiles/mac/"* | *".dotfiles/omarchy/"* | *".dotfiles/private/"*) return 1 ;;
     *".dotfiles/rook/"*) return 1 ;;
     *".dotfiles/"*) return 0 ;;
     *) return 1 ;;

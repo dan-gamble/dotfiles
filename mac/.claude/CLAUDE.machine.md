@@ -1,0 +1,2 @@
+- This is the Mac (macOS). Terminal sessions run in Rex; the SessionStart hook explains the `rex` command.
+- Shopify scoping work lives here: scopes, skills and agents for it sit in `~/Documents/Claude` and `~/.claude/skills`, and aren't on the PC.
