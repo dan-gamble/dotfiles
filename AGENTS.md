@@ -12,6 +12,7 @@ Dan's dotfiles for two machines: a Mac and an Omarchy (Arch + Hyprland) PC. GNU 
 │   └── .agents/    # Shared agent skills (AGENTS.md)
 ├── mac/            # Stow package, linked on the Mac only (AGENTS.md)
 ├── omarchy/        # Stow package, linked on the PC only (AGENTS.md)
+├── private/        # Gitignored: a clone of dan-gamble/dotfiles-private, stowed when present (its own AGENTS.md)
 ├── rook/           # Agent-identity git/gh shims, put on PATH, never stowed (AGENTS.md)
 ├── packages/       # Brewfile, brew.sh (Arch package list doesn't exist yet)
 ├── macos/          # Mac app exports imported by hand: iTerm, Sublime, BTT, Velja, .osx, JetBrains
@@ -30,6 +31,9 @@ A stow package mirrors `$HOME`: `home/.config/herdr/config.toml` is linked to `~
 | herdr config and scripts | `home/.config/herdr/` (AGENTS.md), `home/.local/bin/herdr-*` |
 | yazi, zellij | `home/.config/yazi/`, `home/.config/zellij/` |
 | Claude Code status line | `home/.claude/statusline.sh` |
+| Claude Code: writing rules, agents, search hook | `home/.claude/` |
+| Claude Code: per-machine section of CLAUDE.md | `mac/.claude/CLAUDE.machine.md`, `omarchy/.claude/CLAUDE.machine.md` |
+| Claude Code: global CLAUDE.md, VOICE_PROFILE.md, client-facing skills | `private/.claude/` (private repo) |
 | pi: global instructions, extensions, models | `home/.pi/` (AGENTS.md) |
 | pi: PC-only instructions | `omarchy/.pi/agent/APPEND_SYSTEM.md` |
 | Agent skills (pi, Claude Code) | `home/.agents/skills/` (AGENTS.md) |
@@ -42,6 +46,7 @@ A stow package mirrors `$HOME`: `home/.config/herdr/config.toml` is linked to `~
 - Edit files in the repo. A linked file in `~` is the same file, so either path works, but new files always start in the repo.
 - New config: put it in the package that matches where it's used, at the path it has under `~`, then run `./dot stow`.
 - Shared by both machines → `home/`. One machine only → `mac/` or `omarchy/`.
+- This repo is public. Anything that names a client, holds client data, or describes how BAO works internally → `private/`, which is its own repo: commit and push it from `~/.dotfiles/private`. If `private/` isn't cloned, say so and stop rather than putting it in `home/`.
 - Each package's root `AGENTS.md` stays in the repo (`.stow-local-ignore`); linked to `~/AGENTS.md` it would apply to every project. A nested one, like `home/.config/herdr/AGENTS.md`, is linked next to its config.
 - Run `./dot doctor` after moving or adding anything. It reports conflicts, broken links into the repo, and links still made by hand.
 
